@@ -5,6 +5,7 @@ ImuPublisher::ImuPublisher(uint8_t imu_address) :
     // Initialising member variables before the body of the constructor executes
     //     From testing Arduino requires publisher to be defined before constructor exectutes
     imu_pub_("imu", &imu_msg_),
+    temp_pub_("temperature", &temp_msg_),
     imu_sensor_(55, imu_address)
 {
     imu_pub_timer_ = 0;
@@ -13,8 +14,10 @@ ImuPublisher::ImuPublisher(uint8_t imu_address) :
 }
 
 void ImuPublisher::setup(ros::NodeHandle *nh) {
+    nh_ = nh;
     // Advertise rosserial imu publisher
     nh->advertise(imu_pub_);
+    nh->advertise(temp_pub_);
 
     // Initialize BNO055 Imu
     while(!imu_sensor_.begin()) {
@@ -30,6 +33,9 @@ void ImuPublisher::setup(ros::NodeHandle *nh) {
     imu_sensor_.setExtCrystalUse(true);
 }
 
+/*
+Publish internalmeasurement data from BNO055 sensor to ros sensor_msg::Imu specification
+*/
 void ImuPublisher::publish_imu() {
     if (millis() > imu_pub_timer_) {
         // sensor_msgs::Imu imu_msg;
@@ -60,4 +66,21 @@ void ImuPublisher::publish_imu() {
     }
 }
 
+/*
+Publish temperature from BNO055 sensor
+*/
+void ImuPublisher::publish_temp() {
+    if (millis() > temp_pub_timer_) {
+        int8_t temp = imu_sensor_.getTemp();
+
+        temp_msg_.temperature = temp;
+        temp_msg_.header.stamp = nh_->now();
+
+        // Publish messages
+        temp_pub_.publish(&temp_msg_);
+        
+        // Publish about every 5 seconds
+        temp_pub_timer_ = millis() + 5000;
+    }
+}
 
