@@ -3,6 +3,8 @@
         {
             "name": "Linux",
             "includePath": [
+                "/home/will/Downloads/arduino-1.8.12/tools/**",
+                "/home/will/Downloads/arduino-1.8.12/hardware/arduino/avr/**",
                 "/home/will/.arduino15/packages/arduino/tools/**",
                 "/home/will/.arduino15/packages/arduino/hardware/samd/1.8.6/**"
             ],

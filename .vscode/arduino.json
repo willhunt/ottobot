@@ -1,5 +1,5 @@
 {
     "board": "arduino:samd:mzero_pro_bl_dbg",
     "port": "/dev/ttyACM0",
-    "sketch": "arduino/test_BNO055.ino"
+    "sketch": "arduino/src/ottobot_arduino.ino"
 }
