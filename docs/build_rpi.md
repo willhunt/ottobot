@@ -1,10 +1,12 @@
 ---
 layout: page
-title: Arduino
+title: Raspberry Pi
 permalink: /build/rpi/
 ---
 
 # Notes for using Raspberry Pi with ROS
+1. [Installation](#installation)
+2. [Interface](#interface)
 
 ## Installation
 Install Ubuntu Mate: [The Robotics Back-End](https://roboticsbackend.com/install-ubuntu-mate-18-04-on-raspberry-pi-3-b/)

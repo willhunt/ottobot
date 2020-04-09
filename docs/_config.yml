@@ -17,16 +17,27 @@ title: Ottobot
 # email: your-email@example.com
 description: >- # this means to ignore newlines until "baseurl:"
   Ottobot is a mobile robot platform using ROS.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://willhunt.github.io/ottobot" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "/ottobot" # the subpath of your site, e.g. /blog
+url: "https://willhunt.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 # twitter_username: jekyllrb
 github_username:  willhunt
 
 # Build settings
-markdown: kramdown
+markdown: kramdown  # Set by github pages
+  # math_engine: mathjax  # Set by github pages
+  # syntax_highlighter: rouge  # Set by github pages
 theme: minima
 plugins:
   - jekyll-feed
+
+# Set by github pages
+# lsi: false
+# safe: true
+# source: [your repo's top level directory]
+# incremental: false
+# highlighter: rouge
+# gist:
+#   noscript: false
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
