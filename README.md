@@ -1,6 +1,8 @@
 # Ottobot
 Mobile robot platform using ROS
 
+[Github Pages Site](https://willhunt.github.io/ottobot/)
+
 ## Hardware
 A summary of the main hardware:
 * Dagu Wild Thumper 4wd with 75:1 gear motors
