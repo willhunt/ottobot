@@ -14,6 +14,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: Ottobot
+author: William Hunt
 # email: your-email@example.com
 description: >- # this means to ignore newlines until "baseurl:"
   Ottobot is a mobile robot platform using ROS.
@@ -55,3 +56,7 @@ collections:
   build-notes:
     output: true
     permalink: /build-notes/:path/
+
+minima:
+  social_links:
+    linkedin: william-hunt-52780126
