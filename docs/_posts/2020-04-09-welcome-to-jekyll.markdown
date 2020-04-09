@@ -1,25 +1,20 @@
 ---
 layout: post
-title:  "Welcome to Jekyll!"
+title:  "This is Ottobot!"
 date:   2020-04-09 12:29:14 +0100
-categories: jekyll update
+categories: ottobot update
 ---
-You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
+This is the start of the Ottobot mobile robot project.
 
-To add new posts, simply add a file in the `_posts` directory that follows the convention `YYYY-MM-DD-name-of-post.ext` and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.
+![My helpful screenshot](/assets/2020-04-09_post_cat.jpg)
 
-Jekyll also offers powerful support for code snippets:
+This is a personal development platform for realising what I have learned after completing the [Udacity](www.udacity.com) [Robotics Software Engineer](https://confirm.udacity.com/9NJFA22) course and the [ColumbiaX](https://www.edx.org/school/columbiax) [Robotics](https://www.edx.org/course/robotics-2) course.
 
-{% highlight ruby %}
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
-{% endhighlight %}
+Wild Thumper 4wd           |  Arduino M0 Pro Setup
+:-------------------------:|:-------------------------:
+<img src="/assets/2020-04-09_post_wildthumper.jpg" alt="wild thumper" width="auto" height="250">  |  <img src="/assets/2020-04-09_post_battery.jpg" alt="arduino" width="auto" height="250">
 
-Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
+Follow the progress at the [GitHub Repo][ottobot-github].
 
-[jekyll-docs]: https://jekyllrb.com/docs/home
-[jekyll-gh]:   https://github.com/jekyll/jekyll
-[jekyll-talk]: https://talk.jekyllrb.com/
+[ottobot-github]:   https://github.com/willhunt/ottobot
+[jottobot-index]:   {% link index.md %}

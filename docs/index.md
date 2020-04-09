@@ -6,7 +6,7 @@ layout: home
 ---
 
 # Setup
-[Arduino]({% link build_arduino.md %})
-[Raspberry Pi]({% link build_rpi.md %})
-[IMU]({% link build_imu.md %})
-[Battery Monitoring]({% link build_battery_state.md %})
+[Arduino]({% link build_arduino.md %})  
+[Raspberry Pi]({% link build_rpi.md %})  
+[IMU]({% link build_imu.md %})  
+[Battery Monitoring]({% link build_battery_state.md %})  
