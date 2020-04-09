@@ -26,7 +26,7 @@ github_username:  willhunt
 markdown: kramdown  # Set by github pages
   # math_engine: mathjax  # Set by github pages
   # syntax_highlighter: rouge  # Set by github pages
-theme: jekyll-theme-minimal
+theme: minima
 plugins:
   - jekyll-feed
 
