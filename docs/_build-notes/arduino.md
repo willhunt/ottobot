@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Arduino
-permalink: /build/arduino/
+description: Arduino setup using the M0 Pro.
 ---
 
 # Notes for using Arduino with ROS

@@ -26,7 +26,8 @@ github_username:  willhunt
 markdown: kramdown  # Set by github pages
   # math_engine: mathjax  # Set by github pages
   # syntax_highlighter: rouge  # Set by github pages
-theme: minima
+# theme: minima
+theme: jekyll-theme-minimal
 plugins:
   - jekyll-feed
 
@@ -50,3 +51,8 @@ plugins:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
+collections:
+  build-notes:
+    output: true
+    permalink: /build-notes/:path/

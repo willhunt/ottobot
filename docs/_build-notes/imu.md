@@ -1,7 +1,7 @@
 ---
 layout: page
 title: IMU
-permalink: /build/imu/
+description: Setup of BNO055 9DOF internal measurement unit.
 ---
 
 # Notes on usage of Adafruit BNO055

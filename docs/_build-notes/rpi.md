@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Raspberry Pi
-permalink: /build/rpi/
+description: Raspberry Pi 3 B+ setup notes ROS setup links and SSH interface.
 ---
 
 # Notes for using Raspberry Pi with ROS

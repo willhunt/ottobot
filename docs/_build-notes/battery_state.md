@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Battery State
-permalink: /build/battery-state/
+description: Battery voltage monitoring with Arduino and voltage divider.
 ---
 
 # Notes on monitoring of battery state using Arduino
