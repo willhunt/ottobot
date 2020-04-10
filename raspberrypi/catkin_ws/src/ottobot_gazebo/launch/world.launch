@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+
+    <!-- World File -->
+    <env name="GAZEBO_MODEL_PATH" value="$(find ottobot_gazebo)/models"/>
+    <!-- <env name="GAZEBO_PLUGIN_PATH" value="$(find ottobot_gazebo)../../build"/> -->
+    <arg name="world_file" default="$(find ottobot_gazebo)/worlds/simple_apartment.world"/>
+
+    <!-- Launch Gazebo World -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="use_sim_time" value="true"/>
+        <arg name="debug" value="false"/>
+        <arg name="gui" value="true" />
+        <arg name="world_name" value="$(arg world_file)"/>
+    </include>
+
+    <!-- Spawn robot -->
+    <include file="$(find ottobot_gazebo)/launch/spawn_robot.launch" />
+
+    
+</launch>

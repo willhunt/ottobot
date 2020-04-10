@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<sdf version="1.4">
+  	<world name="default">
+
+	  	<physics type="ode">
+			<ode>
+				<solver>
+					<type>quick</type>
+					<iters>50</iters>
+					<friction_model>cone_model</friction_model>
+				</solver>
+			</ode>
+		</physics>
+
+		<!-- <plugin name="welcome" filename="libwelcome.so"/> -->
+		<include>
+		  	<uri>model://ground_plane</uri>
+		</include>
+
+		<!-- Light Source - add manually to set direction-->
+		<light type="directional" name="sun_high">
+			<cast_shadows>true</cast_shadows>
+			<pose>0 0 10 0 -0.5 0</pose>
+			<diffuse>0.8 0.8 0.8 1</diffuse>
+			<specular>0.2 0.2 0.2 1</specular>
+			<attenuation>
+				<range>1000</range>
+				<constant>0.9</constant>
+				<linear>0.01</linear>
+				<quadratic>0.001</quadratic>
+			</attenuation>
+			<direction>-0.5 0.1 -0.9</direction>
+		</light>
+		<!-- <include> -->
+			<!-- <uri>model://wheelie_robot_stable</uri> -->
+		<!-- </include> -->
+		<include>
+			<uri>model://building_downstairs</uri>
+		</include>
+		<include>
+			<name>bookshelf_0</name>
+			<uri>model://bookshelf</uri>
+			<static>true</static>
+			<pose>-1.561 -2.139 0 0 0 1.5707</pose>
+		</include>
+		<include>
+			<name>bookshelf_1</name>
+			<uri>model://bookshelf</uri>
+			<static>true</static>
+			<pose>-1.1659 5.717 0 0 0 0</pose>
+		</include>
+		<include>
+			<uri>model://table</uri>
+			<static>true</static>
+			<pose>0.969 -2.728 0 0 0 0</pose>
+		</include>
+		<!-- <include>
+			<uri>model://ladder_60deg_0rails</uri>
+			<static>true</static>
+			<pose>-2.386 -0.172 0 0 0 0</pose>
+		</include> -->
+		<include>
+			<name>grey_tote_0</name>
+			<uri>model://grey_tote</uri>
+			<static>true</static>
+			<pose>-2.5035 5.4728 0 0 0 0</pose>
+		</include>
+		<!-- <include>
+			<name>grey_tote_1</name>
+			<uri>model://grey_tote</uri>
+			<static>true</static>
+			<pose>-2.5035 5.4728 0.3110 0 0 0</pose>
+		</include> -->
+		<!-- <include>
+			<uri>model://bowl</uri>
+			<static>true</static>
+			<pose>-1.275 -1.946 0.440006 0 0 0</pose>
+		</include> -->
+		<!-- <include>
+			<uri>model://beer</uri>
+			<static>true</static>
+			<pose>-1.292 -2.469 0.059991 0 0 0</pose>
+		</include> -->
+		<!-- <include>
+			<uri>model://drill</uri>
+			<static>true</static>
+			<pose>-1.108 5.408 0.437932 0 0 1.65</pose>
+		</include> -->
+		<!-- <include>
+			<uri>model://monkey_wrench</uri>
+			<static>true</static>
+			<pose>-1.349305 5.424571 0.067876 0 0 0.1</pose>
+		</include> -->
+		<include>
+			<name>door_0</name>
+			<uri>model://hinged_door</uri>
+			<static>true</static>
+			<pose>-2.775720 -5.538332 0 0 0 -1.570796</pose>
+		</include>
+		<include>
+			<name>door_1</name>
+			<uri>model://hinged_door</uri>
+			<static>true</static>
+			<pose>0.090024 2.335010 0 0 0 -1.570796</pose>
+		</include>
+		<!-- <include>
+			<uri>model://first_2015_trash_can</uri>
+			<static>true</static>
+			<pose>1.402850 1.835820 0 0 0 -1.570796</pose>
+		</include> -->
+		<include>
+			<uri>model://cabinet</uri>
+			<static>true</static>
+			<pose>1.456240 -5.214457 0 0 0 -1.570796</pose>
+		</include>
+
+		<!-- <include>
+			<name>obstacle1</name>
+			<uri>model://whirly_obstacle</uri>
+			<pose>0 -0.8 0 0 0 0</pose>
+			<plugin name="spin_arm" filename="libspin_arm.so"/>
+		</include>
+		<include>
+			<name>obstacle2</name>
+			<uri>model://whirly_obstacle</uri>
+			<pose>-0.69 -2.45 0 0 0 0</pose>
+			<plugin name="spin_arm" filename="libspin_arm.so"/>
+		</include>
+		<include>
+			<uri>model://my_ball</uri>
+			<pose>5 0 0 0 0 0</pose>
+		</include> -->
+
+	</world>
+</sdf>

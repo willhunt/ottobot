@@ -1,0 +1,24 @@
+controller_frequency: 10
+
+TrajectoryPlannerROS:
+  meter_scoring: true
+  max_vel_x: 0.5  # Default: 0.5 m/s
+  min_vel_x: -0.1  # Default: 0.1 m/s
+  max_vel_theta: 1.57  # Default: 1.0 rad/s
+
+  min_in_place_vel_theta: 0.314 # Default: 0.4 rad/s
+
+  acc_lim_theta: 3.14
+  acc_lim_x: 2.0
+  acc_lim_y: 2.0
+
+  sim_time: 1.0
+
+  vx_samples: 5.0
+  vtheta_samples: 10.0
+
+  pdist_scale: 4.0  # Default: 0.6 | weighting for how much the controller should stay close to the path it was given, maximal possible value is 5.0
+  gdist_scale: 2.0  # Default: 0.8 | weighting for how much the controller should attempt to reach its local goal, also controls speed, maximal possible value is 5.0
+  occdist_scale: 0.001  # Default: 0.01 | weighting for how much the controller should attempt to avoid obstacles
+
+  holonomic_robot: false

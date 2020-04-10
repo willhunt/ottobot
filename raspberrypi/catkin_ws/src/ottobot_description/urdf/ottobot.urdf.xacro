@@ -1,0 +1,165 @@
+<?xml version='1.0'?>
+
+<robot name="ottobot" 
+    xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- SUB-COMPONENTS -->
+    <xacro:include filename="$(find ottobot_description)/urdf/ottobot_wheel.urdf.xacro" />
+
+    <!-- PROPERTIES -->
+    <xacro:property name="M_PI" value="3.14159"/>
+
+    <xacro:property name="chassis_mass" value="15.0" />
+    <xacro:property name="chassis_height" value="0.12" />
+    <xacro:property name="chassis_length" value="0.4" />
+    <xacro:property name="chassis_width" value="0.2" />
+
+    <xacro:property name="wheel_mass" value="1.5" />
+    <xacro:property name="wheel_width" value="0.06" />
+    <xacro:property name="wheel_rad" value="0.1" />
+    <xacro:property name="wheel_forward_offset" value="0.13" />
+    <xacro:property name="wheel_left_offset" value="${chassis_width/2 + 0.05}" />
+    
+    <!-- PLUGINS -->
+    <xacro:include filename="$(find ottobot_description)/urdf/ottobot.gazebo.xacro" />
+
+    <!-- PARTS -->
+    <link name="robot_footprint"></link>
+
+    <joint name="robot_footprint_joint" type="fixed">
+        <origin xyz="0 0 ${wheel_rad}" rpy="0 0 0" />
+        <parent link="robot_footprint"/>
+        <child link="chassis" />
+    </joint>
+
+    <link name='chassis'>
+        <!-- <pose>0 0 0.1 0 0 0</pose> -->
+
+        <inertial>
+            <mass value="${chassis_mass}"/>
+            <origin xyz="0 0 0" rpy=" 0 0 0"/>
+            <inertia    ixx="${1/12 * chassis_mass * (chassis_height**2 + chassis_width**2)}"
+                        ixy="0"
+                        ixz="0"
+                        iyy="${1/12 * chassis_mass * (chassis_height**2 + chassis_length**2)}"
+                        iyz="0"
+                        izz="${1/12 * chassis_mass * (chassis_length**2 + chassis_width**2)}" />
+        </inertial>
+
+        <collision name='collision'>
+            <origin xyz="0 0 0" rpy=" 0 0 0"/>
+            <geometry>
+                <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
+            </geometry>
+        </collision>
+
+        <visual name='chassis_visual'>
+            <origin xyz="0 0 0" rpy=" 0 0 0"/>
+            <geometry>
+                <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <!-- WHEELS - - - - - - - - -->
+    <!-- Format from https://github.com/husky/husky/blob/melodic-devel/husky_description/urdf/husky.urdf.xacro -->
+    <xacro:ottobot_wheel wheel_prefix="front_left">
+        <origin xyz="${wheel_forward_offset} ${wheel_left_offset} 0" rpy="0 0 0" />
+    </xacro:ottobot_wheel>
+    <xacro:ottobot_wheel wheel_prefix="front_right">
+        <origin xyz="${wheel_forward_offset} -${wheel_left_offset} 0" rpy="0 0 0" />
+    </xacro:ottobot_wheel>
+    <xacro:ottobot_wheel wheel_prefix="back_left">
+        <origin xyz="-${wheel_forward_offset} ${wheel_left_offset} 0" rpy="0 0 0" />
+    </xacro:ottobot_wheel>
+    <xacro:ottobot_wheel wheel_prefix="back_right">
+        <origin xyz="-${wheel_forward_offset} -${wheel_left_offset} 0" rpy="0 0 0" />
+    </xacro:ottobot_wheel>
+
+    <!-- SENSORS - - - - - - - - -->
+    <link name="camera">
+        <inertial>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <mass value="0.1"/>
+            <inertia ixx="1e-6" ixy="0.0" ixz="0.0" iyy="1e-6" iyz="0.0" izz="1e-6"/>
+        </inertial>
+        <visual name="camera_visual">
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <box size="0.05 0.05 0.05"/>
+            </geometry>
+            <material name="">
+                <color rgba="1.0 0.0 0.0 1.0"/>
+                <texture filename=""/>
+            </material>
+        </visual>
+        <collision name="camera_collision">
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <box size="0.05 0.05 0.05"/>
+            </geometry>
+            <friction>
+            <ode>
+                <mu>0.1</mu>
+                <mu2>0.1</mu2>
+            </ode>
+            </friction>
+        </collision>
+    </link>
+    <joint name="camera_joint" type="fixed">
+        <origin xyz="0.2 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="chassis"/>
+        <child link="camera"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <link name="camera_link_optical">
+    </link>
+    <joint name="camera_optical_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="-1.5707 0 -1.5707"/>
+        <parent link="camera"/>
+        <child link="camera_link_optical"/>
+    </joint>
+
+    <link name="hokuyo">
+        <inertial>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <mass value="1e-5"/>
+            <inertia ixx="1e-6" ixy="0.0" ixz="0.0" iyy="1e-6" iyz="0.0" izz="1e-6"/>
+        </inertial>
+        <visual name="">
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <mesh filename="package://ottobot_description/meshes/hokuyo.dae" />
+            </geometry>
+            <material name="">
+                <color rgba="1.0 0.0 0.0 1.0"/>
+                <texture filename=""/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <box size="0.1 0.1 0.1"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="hokuyo_joint" type="fixed">
+        <origin xyz="0.15 0.0 0.1" rpy="0.0 0.0 0.0"/>
+        <parent link="chassis"/>
+        <child link="hokuyo"/>
+        <axis xyz="0 1 0"/>
+
+    </joint>
+
+    <!-- COLORS - - - - - - - - -->
+    <gazebo reference="left_wheel">
+        <material>Gazebo/Turquoise</material>
+    </gazebo>
+    <gazebo reference="right_wheel">
+        <material>Gazebo/Turquoise</material>
+    </gazebo>
+    <gazebo reference="chassis">
+        <material>Gazebo/SkyBlue</material>
+    </gazebo>
+</robot>
