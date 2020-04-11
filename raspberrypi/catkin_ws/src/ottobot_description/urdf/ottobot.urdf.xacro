@@ -5,9 +5,12 @@
 
     <!-- SUB-COMPONENTS -->
     <xacro:include filename="$(find ottobot_description)/urdf/ottobot_wheel.urdf.xacro" />
+    <xacro:include filename="$(find ottobot_description)/urdf/kinect.urdf.xacro" />
 
     <!-- PROPERTIES -->
     <xacro:property name="M_PI" value="3.14159"/>
+
+    <xacro:property name="parent" value="robot_footprint" />
 
     <xacro:property name="chassis_mass" value="15.0" />
     <xacro:property name="chassis_height" value="0.12" />
@@ -19,16 +22,24 @@
     <xacro:property name="wheel_rad" value="0.1" />
     <xacro:property name="wheel_forward_offset" value="0.13" />
     <xacro:property name="wheel_left_offset" value="${chassis_width/2 + 0.05}" />
+
+    <!-- Kinect pose -->
+    <xacro:property name="cam_px" value="-0.087" />
+	<xacro:property name="cam_py" value="-0.0125" /> Y varies for different configurations. get sets in sensors_urdf
+	<xacro:property name="cam_pz" value="0.2870" />
+	<xacro:property name="cam_or" value="0" />
+	<xacro:property name="cam_op" value="0" />
+	<xacro:property name="cam_oy" value="0" />
     
     <!-- PLUGINS -->
-    <xacro:include filename="$(find ottobot_description)/urdf/ottobot.gazebo.xacro" />
+    <xacro:include filename="$(find ottobot_description)/urdf/roscontrol.gazebo.xacro" />
 
     <!-- PARTS -->
-    <link name="robot_footprint"></link>
+    <link name="${parent}"></link>
 
-    <joint name="robot_footprint_joint" type="fixed">
+    <joint name="${parent}_joint" type="fixed">
         <origin xyz="0 0 ${wheel_rad}" rpy="0 0 0" />
-        <parent link="robot_footprint"/>
+        <parent link="${parent}"/>
         <child link="chassis" />
     </joint>
 
@@ -76,81 +87,10 @@
         <origin xyz="-${wheel_forward_offset} -${wheel_left_offset} 0" rpy="0 0 0" />
     </xacro:ottobot_wheel>
 
+
     <!-- SENSORS - - - - - - - - -->
-    <link name="camera">
-        <inertial>
-            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
-            <mass value="0.1"/>
-            <inertia ixx="1e-6" ixy="0.0" ixz="0.0" iyy="1e-6" iyz="0.0" izz="1e-6"/>
-        </inertial>
-        <visual name="camera_visual">
-            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
-            <geometry>
-                <box size="0.05 0.05 0.05"/>
-            </geometry>
-            <material name="">
-                <color rgba="1.0 0.0 0.0 1.0"/>
-                <texture filename=""/>
-            </material>
-        </visual>
-        <collision name="camera_collision">
-            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
-            <geometry>
-                <box size="0.05 0.05 0.05"/>
-            </geometry>
-            <friction>
-            <ode>
-                <mu>0.1</mu>
-                <mu2>0.1</mu2>
-            </ode>
-            </friction>
-        </collision>
-    </link>
-    <joint name="camera_joint" type="fixed">
-        <origin xyz="0.2 0.0 0.0" rpy="0.0 0.0 0.0"/>
-        <parent link="chassis"/>
-        <child link="camera"/>
-        <axis xyz="0 1 0"/>
-    </joint>
+    <xacro:sensor_kinect parent="${parent}" \>
 
-    <link name="camera_link_optical">
-    </link>
-    <joint name="camera_optical_joint" type="fixed">
-        <origin xyz="0 0 0" rpy="-1.5707 0 -1.5707"/>
-        <parent link="camera"/>
-        <child link="camera_link_optical"/>
-    </joint>
-
-    <link name="hokuyo">
-        <inertial>
-            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
-            <mass value="1e-5"/>
-            <inertia ixx="1e-6" ixy="0.0" ixz="0.0" iyy="1e-6" iyz="0.0" izz="1e-6"/>
-        </inertial>
-        <visual name="">
-            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
-            <geometry>
-                <mesh filename="package://ottobot_description/meshes/hokuyo.dae" />
-            </geometry>
-            <material name="">
-                <color rgba="1.0 0.0 0.0 1.0"/>
-                <texture filename=""/>
-            </material>
-        </visual>
-        <collision>
-            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
-            <geometry>
-                <box size="0.1 0.1 0.1"/>
-            </geometry>
-        </collision>
-    </link>
-    <joint name="hokuyo_joint" type="fixed">
-        <origin xyz="0.15 0.0 0.1" rpy="0.0 0.0 0.0"/>
-        <parent link="chassis"/>
-        <child link="hokuyo"/>
-        <axis xyz="0 1 0"/>
-
-    </joint>
 
     <!-- COLORS - - - - - - - - -->
     <gazebo reference="left_wheel">
