@@ -18,6 +18,8 @@ void BatteryPublisher::setup(ros::NodeHandle *nh) {
     nh->advertise(state_pub_);
     // Maximise ADC resolution for M0 Pro
     analogReadResolution(adc_resolution_bits_);
+    // Specify battery technology as LiPo
+    state_msg_.power_supply_technology = 3; 
 }
 
 /*
