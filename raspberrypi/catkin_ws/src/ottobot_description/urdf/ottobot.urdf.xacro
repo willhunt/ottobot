@@ -89,7 +89,8 @@
 
 
     <!-- SENSORS - - - - - - - - -->
-    <xacro:sensor_kinect parent="${parent}" \>
+    <xacro:sensor_kinect parent="${parent}">
+    </xacro:sensor_kinect>
 
 
     <!-- COLORS - - - - - - - - -->
