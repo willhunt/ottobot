@@ -3,15 +3,21 @@ Mobile robot platform using ROS
 
 [Github Pages Site](https://willhunt.github.io/ottobot/)
 
-## Hardware
-A summary of the main hardware:
-* Dagu Wild Thumper 4wd with 75:1 gear motors
-* Raspberry Pi 3 B+
-* Arduino M0 Pro
-* Adafruit BNO055 9DOF IMU
-* Cytron 10Amp 5V-30V DC Motor Driver (2 Channels)
+## Getting Started
+#### Clone the package
+```sh
+$ cd /home/<project folder>/ 
+$ git clone https://github.com/willhunt/ottobot.git
+```
 
-## Notes
-* [Arduino setup](arduino/notes/setup_notes.md)  
-* [Raspberry pi setup](raspberrypi/notes/setup_notes.md)  
-* [BNO055](arduino/notes/BNO55_notes.md)  
+#### Build the `robo_nd_project5` package
+```sh
+$ cd raspberrypi/catkin_ws/
+$ catkin_make
+```
+
+#### Make sure to check and install any missing dependencies
+```sh
+$ export ROS_OS_OVERRIDE=ubuntu:18.04:bionic # Can use this if getting "unsupported OS error", for exampe with Linux Mint
+$ rosdep install --from-paths src --ignore-src -r -y
+```
