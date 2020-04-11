@@ -1,17 +1,20 @@
 <launch>
     <!-- Args-->
     <arg name="debug" default="false"/>
-    <arg name="goalnav_on" default="true"/>
-    <arg name="teleop_on" default="false"/>
+    <arg name="goalnav_on" default="false"/>
+    <arg name="teleop_on" default="true"/>
     <arg name="joystick_on" default="false"/>
-    <arg name="amcl_on" default="true"/>
-    <arg name="slam_on" default="false"/>
+    <arg name="amcl_on" default="false"/>
+    <arg name="slam_on" default="true"/>
 
     <!-- Robot and world -->
     <include file="$(find ottobot_gazebo)/launch/world.launch"/>
 
     <!-- Drive controller -->
     <include file="$(find ottobot_control)/launch/control.launch"/>
+
+    <!-- Sensors -->
+    <include file="$(find ottobot_sense)/launch/sense.launch"/>
 
     <!-- Navigation -->
     <include file="$(find ottobot_navigation)/launch/navigation.launch">
@@ -24,7 +27,7 @@
     
     <!--launch rviz-->
     <group if="$(eval amcl_on or slam_on)">
-        <node name="rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find ottobot_main)/rviz/nav_config.rviz"/>
+        <node name="rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find ottobot_main)/rviz/slam_config.rviz"/>
     </group>
     <group unless="$(eval amcl_on or slam_on)">
         <node name="rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find ottobot_main)/rviz/teleop_config.rviz"/>
