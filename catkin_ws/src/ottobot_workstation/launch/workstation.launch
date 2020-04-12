@@ -26,11 +26,14 @@
     </group>
 
     <!--launch rviz-->
-    <group if="$(eval amcl_on or slam_on)">
-        <node name="rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find ottobot_robot)/rviz/slam_config.rviz"/>
+    <group if="$(eval slam_on)">
+        <node name="rviz_slam" pkg="rviz" type="rviz" respawn="false" args="-d $(find ottobot_workstation)/rviz/slam_config.rviz"/>
     </group>
-    <group unless="$(eval amcl_on or slam_on)">
-        <node name="rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find ottobot_robot)/rviz/teleop_config.rviz"/>
+    <group if="$(eval goalnav_on)">
+        <node name="rviz_nav" pkg="rviz" type="rviz" respawn="false" args="-d $(find ottobot_workstation)/rviz/nav_config.rviz"/>
+    </group>
+    <group if="$(eval teleop_on or joystick_on)">
+        <node name="rviz_teleop" pkg="rviz" type="rviz" respawn="false" args="-d $(find ottobot_workstation)/rviz/teleop_config.rviz"/>
     </group>
 
 </launch>
