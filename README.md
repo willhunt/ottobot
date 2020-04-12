@@ -1,7 +1,6 @@
 # Ottobot
 Mobile robot platform using ROS
 
-[Github Pages Site](https://willhunt.github.io/ottobot/)
 
 ## Getting Started
 #### Clone the package
@@ -27,5 +26,22 @@ $ rosdep install --from-paths src --ignore-src -r -y
 ```sh
 $ cd catkin_ws/
 $ source devel/setup.bash
-$ roslaunch ottobot_main sim.launch
+$ roslaunch ottobot_main simulation.launch
+```
+
+## Documentation
+The project site can be viewed here:  
+[Github Pages Site](https://willhunt.github.io/ottobot/)  
+
+### Local hosting
+The site can also be run locally with Jekyll installed (used for development mainly):
+#### Requirements
+* Ruby 2.1.0
+* Bundler
+
+#### Installation & Serving
+```sh
+$ cd /<project path>/docs
+$ bundle install
+$ bundle exec jekyll serve
 ```
