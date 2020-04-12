@@ -4,4 +4,4 @@
   <!-- send urdf to param server -->
   <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find ottobot_description)/urdf/ottobot.urdf.xacro'" />
 
-</launch>
+</launch> 

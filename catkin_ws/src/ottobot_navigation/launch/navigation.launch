@@ -1,7 +1,5 @@
 <launch>
     <arg name="goalnav_on" default="false"/>
-    <arg name="teleop_on" default="true"/>
-    <arg name="joystick_on" default="false"/>
     <arg name="amcl_on" default="false"/>
     <arg name="slam_on" default="true"/>
 
@@ -39,23 +37,5 @@
         </node>
     </group>
 
-    <!-- RQT Teleop Controller -->
-    <group if="$(arg teleop_on)">
-        
-        <node name="rqt_drive" pkg="rqt_robot_steering" type="rqt_robot_steering" >
-            <remap from="cmd_vel" to="/ottobot_diff_drive_controller/cmd_vel" />
-        </node>
-    </group>
-    <!-- JOYSTICK using xbox controller-->
-    <group if="$(arg joystick_on)">  
-        <param name="joy_node/dev" value="/dev/input/js0" />
-        <node name="joystick" pkg="joy" type="joy_node">
-            <param name="autorepeat_rate" value="20" />
-        </node>
-        <node name="joystick_controller" pkg="teleop_twist_joy" type="teleop_node">
-            <rosparam file="$(find ottobot_control)/config/joystick_params.yaml" command="load" />
-            <remap from="cmd_vel" to="/ottobot_diff_drive_controller/cmd_vel" />
-        </node>
-    </group>
-
+    
 </launch>

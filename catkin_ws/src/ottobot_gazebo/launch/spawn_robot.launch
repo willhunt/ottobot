@@ -10,15 +10,15 @@
 
     <!-- Launch other relevant files-->
     <include file="$(find ottobot_description)/launch/robot_description.launch"/>
+
     <!-- Send fake joint values-->
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
         <param name="use_gui" value="false"/>
     </node>
+    
     <!-- Send robot states to tf -->
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>
-
-    <!-- Find my robot Description-->
-    <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find ottobot_description)/urdf/ottobot.urdf.xacro'"/>
+    <!-- Tried moving this to ottobot_robot -->
+    <!-- <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/> -->
 
     <!-- Spawn My Robot -->
     <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
