@@ -9,8 +9,6 @@ layout: page
     * CAD model to create meshes for visual
 * Robot
     * Build robot
-    * Seperate teleoperation from navigation package
-
 
 # Future Ideas
 * Implement control system to balance inverted pendulum
