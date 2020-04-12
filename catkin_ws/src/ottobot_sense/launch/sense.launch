@@ -1,7 +1,7 @@
 <launch>
     <!-- Lauch node to convert kinect depth image to a laster scan -->
     <!-- http://wiki.ros.org/depthimage_to_laserscan -->
-    <node name="depthimage_to_laserscan" pkg="depthimage_to_laserscan" type="depthimage_to_laserscan">
+    <node name="depthimage_to_laserscan" pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" output="log">
         <remap from="image" to="/camera/depth/image_raw" />
 
         <rosparam file="$(find ottobot_sense)/config/depth_to_laser_params.yaml" command="load" />

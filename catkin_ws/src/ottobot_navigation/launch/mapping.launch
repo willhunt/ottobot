@@ -6,7 +6,7 @@
 
 
     <!-- Mapping Node -->
-    <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping" output="screen">
+    <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping" output="log">
         <remap from="scan" to="$(arg scan_topic)"/>
         <rosparam file="$(find ottobot_navigation)/config/gmapping_params.yaml" command="load" />
     </node>
