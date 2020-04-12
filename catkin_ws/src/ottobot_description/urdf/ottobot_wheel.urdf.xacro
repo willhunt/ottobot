@@ -35,7 +35,7 @@
                 	<origin xyz="${wheel_rad/2} -0.02 ${wheel_rad/2}" rpy=" 0 0 0"/>
 				</xacro:unless>
                 <geometry>
-                    <sphere radius="0.02"/>
+                    <sphere radius="0.005"/>
                 </geometry>
             </visual>
 		</link>

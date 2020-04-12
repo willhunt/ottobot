@@ -12,21 +12,23 @@
 
     <xacro:property name="parent" value="robot_footprint" />
 
-    <xacro:property name="chassis_mass" value="15.0" />
-    <xacro:property name="chassis_height" value="0.12" />
-    <xacro:property name="chassis_length" value="0.4" />
-    <xacro:property name="chassis_width" value="0.2" />
+    <xacro:property name="chassis_mass" value="2.0" />
+    <xacro:property name="chassis_height" value="0.095" />
+    <xacro:property name="chassis_length" value="0.23" />
+    <xacro:property name="chassis_width" value="0.12" />
+    <xacro:property name="chassis_gnd_clearance" value="0.05" />
 
-    <xacro:property name="wheel_mass" value="1.5" />
-    <xacro:property name="wheel_width" value="0.06" />
-    <xacro:property name="wheel_rad" value="0.1" />
-    <xacro:property name="wheel_forward_offset" value="0.13" />
-    <xacro:property name="wheel_left_offset" value="${chassis_width/2 + 0.05}" />
+    <xacro:property name="wheel_mass" value="0.186" />
+    <xacro:property name="wheel_width" value="0.062" />
+    <xacro:property name="wheel_rad" value="0.063" />
+    <xacro:property name="wheel_forward_offset" value="0.075" />
+    <xacro:property name="wheel_left_offset" value="0.125" />
+    <xacro:property name="wheel_vert_offset" value="${-chassis_gnd_clearance - chassis_height/2 + wheel_rad}" />
 
     <!-- Kinect pose -->
-    <xacro:property name="cam_px" value="-0.087" />
-	<xacro:property name="cam_py" value="-0.0125" /> Y varies for different configurations. get sets in sensors_urdf
-	<xacro:property name="cam_pz" value="0.2870" />
+    <xacro:property name="cam_px" value="${chassis_length / 2}" />
+	<xacro:property name="cam_py" value="0" />
+	<xacro:property name="cam_pz" value="${0.05 + chassis_height/2}" />
 	<xacro:property name="cam_or" value="0" />
 	<xacro:property name="cam_op" value="0" />
 	<xacro:property name="cam_oy" value="0" />
@@ -38,7 +40,7 @@
     <link name="${parent}"></link>
 
     <joint name="${parent}_joint" type="fixed">
-        <origin xyz="0 0 ${wheel_rad}" rpy="0 0 0" />
+        <origin xyz="0 0 ${chassis_gnd_clearance + chassis_height/2}" rpy="0 0 0" />
         <parent link="${parent}"/>
         <child link="chassis" />
     </joint>
@@ -75,21 +77,21 @@
     <!-- WHEELS - - - - - - - - -->
     <!-- Format from https://github.com/husky/husky/blob/melodic-devel/husky_description/urdf/husky.urdf.xacro -->
     <xacro:ottobot_wheel wheel_prefix="front_left">
-        <origin xyz="${wheel_forward_offset} ${wheel_left_offset} 0" rpy="0 0 0" />
+        <origin xyz="${wheel_forward_offset} ${wheel_left_offset} ${wheel_vert_offset}" rpy="0 0 0" />
     </xacro:ottobot_wheel>
     <xacro:ottobot_wheel wheel_prefix="front_right">
-        <origin xyz="${wheel_forward_offset} -${wheel_left_offset} 0" rpy="0 0 0" />
+        <origin xyz="${wheel_forward_offset} -${wheel_left_offset} ${wheel_vert_offset}" rpy="0 0 0" />
     </xacro:ottobot_wheel>
     <xacro:ottobot_wheel wheel_prefix="back_left">
-        <origin xyz="-${wheel_forward_offset} ${wheel_left_offset} 0" rpy="0 0 0" />
+        <origin xyz="-${wheel_forward_offset} ${wheel_left_offset} ${wheel_vert_offset}" rpy="0 0 0" />
     </xacro:ottobot_wheel>
     <xacro:ottobot_wheel wheel_prefix="back_right">
-        <origin xyz="-${wheel_forward_offset} -${wheel_left_offset} 0" rpy="0 0 0" />
+        <origin xyz="-${wheel_forward_offset} -${wheel_left_offset} ${wheel_vert_offset}" rpy="0 0 0" />
     </xacro:ottobot_wheel>
 
 
     <!-- SENSORS - - - - - - - - -->
-    <xacro:sensor_kinect parent="${parent}">
+    <xacro:sensor_kinect parent="chassis">
     </xacro:sensor_kinect>
 
 
