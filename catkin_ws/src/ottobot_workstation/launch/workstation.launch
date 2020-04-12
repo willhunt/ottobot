@@ -27,10 +27,10 @@
 
     <!--launch rviz-->
     <group if="$(eval amcl_on or slam_on)">
-        <node name="rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find ottobot_main)/rviz/slam_config.rviz"/>
+        <node name="rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find ottobot_robot)/rviz/slam_config.rviz"/>
     </group>
     <group unless="$(eval amcl_on or slam_on)">
-        <node name="rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find ottobot_main)/rviz/teleop_config.rviz"/>
+        <node name="rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find ottobot_robot)/rviz/teleop_config.rviz"/>
     </group>
 
     <!--  Debugging tools -->
