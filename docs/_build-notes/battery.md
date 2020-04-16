@@ -1,9 +1,23 @@
 ---
 layout: page
-title: Battery State
-description: Battery voltage monitoring with Arduino and voltage divider.
+title: Battery
+description: Battery connection and voltage monitoring with Arduino and voltage divider.
 ---
+# Battery Connection
+Key components of power draw:
 
+Component         |  Max Power Draw [W] | 
+:-------------    |:-----------------: 
+4 Motors          | 81.6          
+Raspberry Pi      | 12.8
+Kinect            | 12.0
+**Total**         | 106.4
+
+At 7.4V a maximum of 12.8A could be drawn from the battery meaning a [cable size](https://www.solar-wind.co.uk/info/dc-cable-wire-sizing-tool-low-voltage-drop-calculator) of 14AWG is required.
+
+
+
+# Battery State Monitoring
 Notes on monitoring the battery volatge as an indication of charge level using the Arduino via a voltage divider.
 
 ## Voltage Divider

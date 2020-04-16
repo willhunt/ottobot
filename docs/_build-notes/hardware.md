@@ -10,7 +10,8 @@ A summary of the main hardware:
 * Arduino M0 Pro [[Product Page](https://www.arduino.cc/en/Main/ArduinoBoardM0PRO), [Guide](https://www.arduino.cc/en/Guide/ArduinoM0Pro)]
 * Adafruit BNO055 9DOF IMU [[Guide](https://learn.adafruit.com/adafruit-bno055-absolute-orientation-sensor), [Datasheet](https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bno055-ds000.pdf)]
 * Cytron 10Amp 5V-30V DC Motor Driver (2 Channels) [[Product Page](https://www.cytron.io/p-10amp-5v-30v-dc-motor-driver-2-channels)]
-* Zippy 5000mAh LiPo battery [[Product Page](https://hobbyking.com/en_us/zippy-5000mah-2s1p-30c-hardcase-pack.html)]
+* Zippy 5000mAh LiPo battery [[Product Page](https://hobbyking.com/en_us/zippy-5000mah-2s1p-30c-hardcase-pack.html), [User Manual](https://docs.google.com/document/d/1ol8nICCTTw5dAHHE_hju08cCVH2GN5_Y3cGC6B4Gbas/edit)]
+* DFRobot DC-DC Power Module [[Product Page](https://www.dfrobot.com/product-752.html), [Datasheet](http://image.dfrobot.com/image/data/DFR0205/GS2678%20datasheet.pdf)]
 
 # Mass
 

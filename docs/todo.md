@@ -12,6 +12,6 @@ layout: page
 
 # Future Ideas
 * Implement control system to balance inverted pendulum
-    * COuld possibly use kinect to track pendulum angle, or encoder
+    * Could use kinect to track pendulum angle, or encoder
 
 
