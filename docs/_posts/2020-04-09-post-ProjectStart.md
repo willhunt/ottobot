@@ -3,6 +3,7 @@ layout: post
 title:  "This is Ottobot!"
 date:   2020-04-09 12:29:14 +0100
 categories: ottobot update
+tags: [about]
 ---
 This is the start of the Ottobot mobile robot project.
 
