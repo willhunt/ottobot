@@ -21,6 +21,12 @@ $ export ROS_OS_OVERRIDE=ubuntu:18.04:bionic # Can use this if getting "unsuppor
 $ rosdep install --from-paths src --ignore-src -r -y
 ```
 
+#### Install Arduino libraries
+Arduino libraries required:
+* Rosserial ([see docs](https://willhunt.github.io/ottobot/build-notes/arduino/))
+* PID ([PIDLibrary](https://playground.arduino.cc/Code/PIDLibrary/))
+* PID Autotune ([PIDAutoTuneLibrary](https://playground.arduino.cc/Code/PIDAutotuneLibrary/))
+
 ## Run
 ### Simulation
 ```sh

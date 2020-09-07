@@ -9,6 +9,8 @@ layout: page
     * CAD model to create meshes for visual
 * Robot
     * Build robot
+* ROS
+    * Add robot_pose_ekf node to fuse wheel and IMU data for odom
 
 # Future Ideas
 * Implement control system to balance inverted pendulum
