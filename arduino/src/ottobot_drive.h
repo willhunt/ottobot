@@ -4,61 +4,37 @@
 #include <Arduino.h>
 #include <ros.h>
 #include <PID_v1.h>
-#include <PID_AutoTune_v0.h>
-#include <geometry_msgs/Twist.h>
-#include <tf/transform_broadcaster.h>
-#include <nav_msgs/Odometry.h>
+// #include <PID_AutoTune_v0.h>
+#include <ottobot_hardware/WheelCmd.h>
+#include <ottobot_hardware/PidSettings.h>
+#include <sensor_msgs/JointState.h>
+#include <control_msgs/PidState.h>
 
-#define ENC_COUNT_PER_REV 16
+#define ENC_COUNT_PER_REV 300  //1200
+#define PIN_PWM_LEFT 5  // PWM1
+#define PIN_PWM_RIGHT 7  // PWM2
+#define PIN_DIR_LEFT 4  // DIR1
+#define PIN_DIR_RIGHT 6  // DIR2
+#define PIN_ENCODER_LEFT_A 9  // Yellow M1
+#define PIN_ENCODER_LEFT_B 10  // White M1
+#define PIN_ENCODER_RIGHT_A 11  // Yellow M2
+#define PIN_ENCODER_RIGHT_B 12  // White M2
 
-/* 
-Rosserial drive class for controlling wheel speed and publishing odometry & transform data
-*/
-class DriveController {
-  
-  private:
-    ros::NodeHandle *nh_;
-    ros::Publisher odom_pub_;
-    tf::TransformBroadcaster odom_broadcaster_;
-    nav_msgs::Odometry odom_msg_;
-    sensor_msgs::Temperature temp_msg_;
+void drive_controller_setup(ros::NodeHandle* nh);
+void control_cmd_callback(const ottobot_hardware::WheelCmd& cmd_msg);
+void update_tick_left();
+void update_tick_right();
+void publish_joint_state();
+void publish_pid_state();
+void update_joint_state();
+void update_wheel_tick_left();
+void update_wheel_tick_right();
+void drive_controller_update();
+void set_drive_gains(double kp, double ki, double kd);
+void pid_settings_callback(const ottobot_hardware::PidSettings& settings_msg);
+double constrain_angle(double theta);
+void drive_motors(double output_left, double output_right);
 
-    long odom_pub_timer_;
-
-    double wheel_speed_left_;  // rpm
-    double wheel_speed_right_;  // rpm
-    static volatile double wheel_ticks_left_;
-    static volatile double wheel_ticks_right_;
-    long time_last_speed_udpate_;  // milliseconds
-
-    PID pid_wheels_left_;
-    PID pid_wheels_right_;
-    int pin_pwm_left_;
-    int pin_dir_left_;
-    int pin_pwm_right_ ;
-    int pin_dir_right_;
-
-    double target_speed_left_;  // rpm
-    double target_speed_right_;  // rpm
-    double actual_speed_left_;  // rpm
-    double actual_speed_right_;  // rpm
-    double output_left_;  // pwm
-    double output_right_;  // pwm
-
-    double kp_;
-    double ki_;
-    double kd_;
-    
-  public:
-    DriveController();
-    void setup(ros::NodeHandle *nh);
-    void publish_odom();
-    void broadcast_odom();
-    void twist_callback();
-    void drive_update();
-    void update_wheel_tick_left();
-    void update_wheel_tick_right();
-};
-
+extern bool low_voltage_cut_off;
 
 #endif //OTTOBOT_DRIVE_H

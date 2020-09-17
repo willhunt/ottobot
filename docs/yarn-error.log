@@ -1,0 +1,53 @@
+Arguments: 
+  /usr/local/bin/node /usr/share/yarn/bin/yarn.js dev
+
+PATH: 
+  /home/will/gems/bin:/opt/ros/melodic/bin:/home/will/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/will/.yarn/bin
+
+Yarn version: 
+  1.22.5
+
+Node version: 
+  12.16.3
+
+Platform: 
+  linux x64
+
+Trace: 
+  SyntaxError: /home/will/Documents/ottobot/docs/package.json: Unexpected token } in JSON at position 596
+      at JSON.parse (<anonymous>)
+      at /usr/share/yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/usr/share/yarn/lib/cli.js:310:30)
+      at /usr/share/yarn/lib/cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "ottobot",
+    "version": "0.0.1",
+    "description": "Ottobot documentation",
+    "main": "index.js",
+    "authors": {
+      "name": "William Hunt",
+      "email": "will.hunt.webcontact@gmail.com"
+    },
+    "repository": "https://github.com/willhunt/ottobot/ottobot",
+    "scripts": {
+      "dev": "vuepress dev src",
+      "build": "vuepress build src"
+    },
+    "license": "MIT",
+    "devDependencies": {
+      "vuepress": "^1.5.3",
+      "vuepress-plugin-mathjax": "^1.2.8",
+      "@vuepress/plugin-back-to-top": "^1.3.1",
+      "@vuepress/plugin-medium-zoom": "^1.3.1",
+      "@vuepress/plugin-search": "^1.5.2",
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

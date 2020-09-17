@@ -5,8 +5,10 @@
 #include <ros.h>
 #include <sensor_msgs/BatteryState.h>
 
+#define CUT_OFF_VOLTAGE 6.8  // 3.4V minimum per cell (2 cells)
+
 /* 
-Rosserial publisher class for publishing battery stste
+Rosserial publisher class for publishing battery state
 */
 class BatteryPublisher {
   
@@ -23,6 +25,7 @@ class BatteryPublisher {
     BatteryPublisher(int battery_voltage_pin, double max_voltage, int adc_resolution_bits);
     void setup(ros::NodeHandle *nh);
     void publish_state();
+    double read_state();
 };
 
 

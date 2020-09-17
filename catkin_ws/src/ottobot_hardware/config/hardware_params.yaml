@@ -1,0 +1,8 @@
+ottobot:
+  hardware_interface:
+    loop_hz: 10 # hz
+    joints:
+      - 'front_left_wheel_joint'
+      - 'back_left_wheel_joint'
+      - 'front_right_wheel_joint'
+      - 'back_right_wheel_joint'

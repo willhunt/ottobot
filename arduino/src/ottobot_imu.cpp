@@ -38,7 +38,7 @@ Publish internalmeasurement data from BNO055 sensor to ros sensor_msg::Imu speci
 */
 void ImuPublisher::publish_imu() {
     if (millis() > imu_pub_timer_) {
-        // sensor_msgs::Imu imu_msg;
+        imu_msg_.header.stamp = nh_->now();
         // Orientation
         imu::Quaternion quat = imu_sensor_.getQuat();
         imu_msg_.orientation.x = quat.x();
