@@ -1,6 +1,6 @@
 <launch>
 
-    <!-- Robot pose -->
+    <!-- Robot pose; for spawner -->
     <arg name="x" default="0"/>
     <arg name="y" default="0"/>
     <arg name="z" default="0"/>
@@ -8,8 +8,8 @@
     <arg name="pitch" default="0"/>
     <arg name="yaw" default="0"/>
 
-    <!-- Launch other relevant files-->
-    <include file="$(find ottobot_description)/launch/robot_description.launch"/>
+    <!-- Tried moving this to ottobot_robot -->
+    <!-- <include file="$(find ottobot_description)/launch/robot_description.launch"/> -->
 
     <!-- Send fake joint values-->
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
@@ -17,7 +17,7 @@
     </node>
     
     <!-- Send robot states to tf -->
-    <!-- Tried moving this to ottobot_robot -->
+    
     <!-- <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/> -->
 
     <!-- Spawn My Robot -->

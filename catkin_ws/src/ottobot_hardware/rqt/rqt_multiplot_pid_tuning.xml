@@ -199,7 +199,7 @@
                                 <type>0</type>
                             </style>
                             <subscriber_queue_size>100</subscriber_queue_size>
-                            <title>Untitled Curve</title>
+                            <title>Output</title>
                         </curve_0>
                     </curves>
                     <legend>

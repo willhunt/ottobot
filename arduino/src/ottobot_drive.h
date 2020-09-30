@@ -15,10 +15,19 @@
 #define PIN_PWM_RIGHT 7  // PWM2
 #define PIN_DIR_LEFT 4  // DIR1
 #define PIN_DIR_RIGHT 6  // DIR2
-#define PIN_ENCODER_LEFT_A 9  // Yellow M1
-#define PIN_ENCODER_LEFT_B 10  // White M1
-#define PIN_ENCODER_RIGHT_A 11  // Yellow M2
-#define PIN_ENCODER_RIGHT_B 12  // White M2
+#define PIN_ENCODER_LEFT_A 11  // Yellow M1
+#define PIN_ENCODER_LEFT_B 12  // White M1
+#define PIN_ENCODER_RIGHT_A 9  // Yellow M2
+#define PIN_ENCODER_RIGHT_B 10  // White M2
+
+#define PUB_INTERVAL_JOINT_STATE 20  // [ms]
+#define PUB_INTERVAL_PID_STATE 20  // [ms]
+#define UPDATE_INTERVAL_JOINT_STATE 20  // [ms]
+// #define SPEED_FILTER_VAL 0.8
+#define MA_FILTER_WINDOW_SIZE 10
+
+#define LIMIT_DUTY_MIN 25
+#define LIMIT_DUTY_MAX 255
 
 void drive_controller_setup(ros::NodeHandle* nh);
 void control_cmd_callback(const ottobot_hardware::WheelCmd& cmd_msg);
@@ -27,8 +36,10 @@ void update_tick_right();
 void publish_joint_state();
 void publish_pid_state();
 void update_joint_state();
-void update_wheel_tick_left();
-void update_wheel_tick_right();
+void update_wheel_tick_left_rising();
+void update_wheel_tick_left_falling();
+void update_wheel_tick_right_rising();
+void update_wheel_tick_right_falling();
 void drive_controller_update();
 void set_drive_gains(double kp, double ki, double kd);
 void pid_settings_callback(const ottobot_hardware::PidSettings& settings_msg);

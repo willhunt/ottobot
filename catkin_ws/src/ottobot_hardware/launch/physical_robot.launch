@@ -1,0 +1,29 @@
+<launch>
+    <!-- Args-->
+    <arg name="debug" default="true" />
+    <arg name="goalnav_on" default="false" />
+    <arg name="amcl_on" default="false" />
+    <arg name="slam_on" default="false" />
+    <arg name="teleop_on" default="true" />
+    <arg name="joystick_on" default="false" />
+
+    <!-- Arduino -->
+    <node name="rosserial_node" pkg="rosserial_python" type="serial_node.py" >
+        <param name="port" type="string" value="/dev/ttyACM0" />
+        <param name="baud" type="int" value="115200" />
+    </node>
+
+    <!-- Robot onboard launch, includes control -->
+    <include file="$(find ottobot_robot)/launch/robot.launch">
+        <arg name="goalnav_on" default="$(arg goalnav_on)"/>
+        <arg name="amcl_on" default="$(arg amcl_on)"/>
+        <arg name="slam_on" default="$(arg slam_on)"/>
+    </include>
+
+    <!-- Hardware interface -->
+    <rosparam file="$(find ottobot_hardware)/config/hardware_params.yaml" command="load" />
+    <node name="ottobot_hardware" pkg="ottobot_hardware" type="ottobot_hardware_node" respawn="false" output="screen"
+        launch-prefix="$(eval 'gdb -ex run' if debug else '')"> 
+    </node>
+
+</launch>

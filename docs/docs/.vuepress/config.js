@@ -70,7 +70,8 @@ module.exports = {
             'motor_control',
             'battery',
             'imu',
-            'kinect'
+            'kinect',
+            'debugging'
           ]
         }
       ],

@@ -4,11 +4,10 @@
     <arg name="teleop_on" default="true"/>
     <arg name="joystick_on" default="false"/>
     <arg name="amcl_on" default="false"/>
-    <arg name="slam_on" default="true"/>
+    <arg name="slam_on" default="false"/>
 
     <!-- RQT Teleop Controller -->
     <group if="$(arg teleop_on)">
-        
         <node name="rqt_drive" pkg="rqt_robot_steering" type="rqt_robot_steering" >
             <remap from="cmd_vel" to="/ottobot_diff_drive_controller/cmd_vel" />
         </node>
