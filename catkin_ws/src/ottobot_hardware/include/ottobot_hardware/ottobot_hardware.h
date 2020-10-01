@@ -4,16 +4,27 @@
 #define N_JOINTS 4
 
 #include <ros/ros.h>
-#include "ottobot_hardware/ottobot_hardware_interface.h"
+#include <hardware_interface/joint_command_interface.h>
+#include <hardware_interface/joint_state_interface.h>
+#include <joint_limits_interface/joint_limits_interface.h>
+#include <hardware_interface/robot_hw.h>
 #include <sensor_msgs/JointState.h>
 
-class OttobotHardware : public OttobotHardwareInterface {
+class OttobotHardwareInterface : public hardware_interface::RobotHW {
     public:
-        OttobotHardware(ros::NodeHandle* n);
+        OttobotHardwareInterface(ros::NodeHandle* n);
         void read();
-        void write();
+        void write(ros::Duration elapsed_time);
 
     private:
+        hardware_interface::JointStateInterface joint_state_interface_;
+        hardware_interface::VelocityJointInterface joint_vel_interface_;
+        joint_limits_interface::VelocityJointSaturationInterface joint_limits_interface_;
+        std::vector<double> cmd_ = std::vector<double>(N_JOINTS);
+        std::vector<double> position_ = std::vector<double>(N_JOINTS);
+        std::vector<double> velocity_ = std::vector<double>(N_JOINTS);
+        std::vector<double> effort_ = std::vector<double>(N_JOINTS);
+        std::vector<std::string> joint_names_ = std::vector<std::string>(N_JOINTS);
         // Subscribe to wheel velocity from microcontroller
         // ros::Subscriber wheel_state_subscriber_;
         // Publish wheel velocities to microcontroller
@@ -30,7 +41,7 @@ class OttobotHardware : public OttobotHardwareInterface {
  * Set joint values from either msg or srv
  * Definition in header due to being template method
 **/
-template<typename T> void OttobotHardware::set_joint_values(T input) {
+template<typename T> void OttobotHardwareInterface::set_joint_values(T input) {
     // Go through message/service and update joints provided
     for (int i_input = 0; i_input < input.name.size(); i_input++) {
         // Loop through joints to find each one

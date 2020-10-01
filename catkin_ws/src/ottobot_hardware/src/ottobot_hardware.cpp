@@ -2,22 +2,23 @@
 #include <ottobot_hardware/WheelCmd.h>
 #include <ottobot_hardware/JointUpdate.h>
 #include <ros/console.h>
+#include <joint_limits_interface/joint_limits_rosparam.h>
 
-OttobotHardware::OttobotHardware(ros::NodeHandle* nh) :
+OttobotHardwareInterface::OttobotHardwareInterface(ros::NodeHandle* nh) :
     nh_(nh)
 {
     // Setup joint interfaces
     init_joint_interfaces();
     // Subscribe to wheel state from microcontroller
     // wheel_state_subscriber_ = nh_->subscribe("/hardware/joint_states", 10, 
-    //         &OttobotHardware::wheel_state_callback, this);
+    //         &OttobotHardwareInterface::wheel_state_callback, this);
     // Publish wheel state for microcontroller
     wheel_state_publisher_ = nh_->advertise<ottobot_hardware::WheelCmd>("/hardware/cmd_joint_state", 1);
     // Setup service client for sending requests to arduino
     joint_service_client_ = nh_->serviceClient<ottobot_hardware::JointUpdate>("/hardware/joint_update");
 }
 
-void OttobotHardware::init_joint_interfaces() {
+void OttobotHardwareInterface::init_joint_interfaces() {
     // Get joint names
     nh_->getParam("/ottobot/hardware_interface/joints", joint_names_);
 
@@ -29,25 +30,41 @@ void OttobotHardware::init_joint_interfaces() {
         joint_state_interface_.registerHandle(joint_state_handle);
 
         // Register joint interface for setting state
-        hardware_interface::JointHandle joint_handle_(
+        hardware_interface::JointHandle joint_handle(
             joint_state_interface_.getHandle(joint_names_[i]),
             &cmd_[i]
         );
-        joint_vel_interface_.registerHandle(joint_handle_);
+        joint_vel_interface_.registerHandle(joint_handle);
 
-        // Do joint limits here later **************
+        // Joint limits
+        joint_limits_interface::JointLimits joint_limits;
+        // Get limits from parameter server (joint_limits_params.yaml)
+        const bool rosparam_limits_ok = getJointLimits("wheel_joint", *nh_, joint_limits);
+        if (rosparam_limits_ok) {
+            joint_limits_interface::VelocityJointSaturationHandle joint_limits_handle(
+                joint_handle,
+                joint_limits
+            );
+            joint_limits_interface_.registerHandle(joint_limits_handle);
+        } else {
+            ROS_ERROR("Could not load joint limits from ROS parameter server");
+        }
     }
     registerInterface(&joint_state_interface_);
     registerInterface(&joint_vel_interface_);
 }
 
-void OttobotHardware::wheel_state_callback(const sensor_msgs::JointState joint_state_msg) {
+void OttobotHardwareInterface::wheel_state_callback(const sensor_msgs::JointState joint_state_msg) {
     set_joint_values<sensor_msgs::JointState>(joint_state_msg);
 }
 
-void OttobotHardware::write() {
+void OttobotHardwareInterface::write(ros::Duration elapsed_time) {
+    // Enforce joint limits for all registered handles
+    joint_limits_interface_.enforceLimits(elapsed_time);
+
     // Publish command for microcontroller
     ottobot_hardware::WheelCmd cmd_msg;
+    cmd_msg.mode = 0;
     cmd_msg.angular_velocity_left = cmd_[0];
     cmd_msg.angular_velocity_right = cmd_[2];
     wheel_state_publisher_.publish(cmd_msg);
@@ -56,7 +73,7 @@ void OttobotHardware::write() {
 /**
  * Request update from arduino on joint states
 **/
-void OttobotHardware::read() {
+void OttobotHardwareInterface::read() {
     ottobot_hardware::JointUpdate update_srv;
     if (joint_service_client_.call(update_srv)) {
         set_joint_values<ottobot_hardware::JointUpdate::Response>(update_srv.response);

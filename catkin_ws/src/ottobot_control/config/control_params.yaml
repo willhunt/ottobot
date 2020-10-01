@@ -9,16 +9,15 @@ ottobot_diff_drive_controller:
   publish_rate: 50  # Default: 50 Hz
   pose_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 0.03]
   twist_covariance_diagonal: [0.001, 0.001, 0.001, 1000000.0, 1000000.0, 0.03]
-  # wheel_separation: 0.31  # m
-  # wheel radius: 0.1  # m
   cmd_vel_timeout: 0.25  # Default: 0.5 s
 
   odom_frame_id: "/odom"
   base_frame_id: robot_footprint
+  # May not need this after fusing odom with imu
   enable_odom_tf: true  # Required for transform to odom frame (to appear in rviz fixed frame)
 
   # Wheel separation and radius multipliers
-  wheel_separation_multiplier: 1.8 # default: 1.0
+  wheel_separation_multiplier: 1.5 # default: 1.0
   wheel_radius_multiplier    : 1.0 # default: 1.0
 
   # Velocity and acceleration limits
@@ -26,12 +25,12 @@ ottobot_diff_drive_controller:
   linear:
     x:
       has_velocity_limits    : true
-      max_velocity           : 2.0   # m/s
+      max_velocity           : 1.5   # m/s
       has_acceleration_limits: true
-      max_acceleration       : 5.0   # m/s^2
+      max_acceleration       : 2.0   # m/s^2
   angular:
     z:
       has_velocity_limits    : true
       max_velocity           : 3.0   # rad/s
       has_acceleration_limits: true
-      max_acceleration       : 5.0   # rad/s^2
+      max_acceleration       : 3.0   # rad/s^2

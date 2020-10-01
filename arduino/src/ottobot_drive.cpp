@@ -1,4 +1,5 @@
 #include "ottobot_drive.h"
+#include <ottobot_hardware/BasePidState.h>
 
 ros::NodeHandle *nh_;
 
@@ -20,11 +21,11 @@ ros::Publisher joint_state_pub("hardware/joint_states", &joint_state_msg);
 // Joint state service server
 ros::ServiceServer<JointRequest, JointResponse> joint_state_service("/hardware/joint_update", &joint_state_servie_callback);
 // PID publisher
-control_msgs::PidState pid_state_msg;
+ottobot_hardware::BasePidState pid_state_msg;
 unsigned long pid_state_pub_timer = 0;
-ros::Publisher pid_state_pub("hardware/pid_left_state", &pid_state_msg);
+ros::Publisher pid_state_pub("hardware/pid_state", &pid_state_msg);
 // Mode
-char mode = 1;  // 0=PID, 1=Throttle/duty
+char mode = MODE_DUTY;  // 0=PID, 1=Throttle/duty
 // PID
 double kp = 5;
 double ki = 25;
@@ -70,8 +71,8 @@ void drive_controller_setup(ros::NodeHandle *nh) {
     // Setup wheel PID controllers
     pid_left.SetOutputLimits(-255, 255);
     pid_right.SetOutputLimits(-255, 255);
-    pid_left.SetMode(AUTOMATIC);
-    pid_right.SetMode(AUTOMATIC);
+    // pid_left.SetMode(AUTOMATIC);
+    // pid_right.SetMode(AUTOMATIC);
 
     // Setup motor controller pins
     pinMode(PIN_PWM_LEFT, OUTPUT);
@@ -98,6 +99,11 @@ void drive_controller_setup(ros::NodeHandle *nh) {
     joint_state_msg.velocity_length = 4;
     // joint_state_msg.velocity = speeds;
     pid_state_msg.header.frame_id = "robot_footprint";
+    // PID state
+    pid_state_msg.output_length = 2;
+    pid_state_msg.target_length = 2;
+    pid_state_msg.error_length = 2;
+    pid_state_msg.pid_mode_length = 2;
 
     // Setup filter
     for (int i = 0; i < MA_FILTER_WINDOW_SIZE; i++) {
@@ -207,7 +213,7 @@ void drive_controller_update() {
     if (low_voltage_cut_off) {
         output_left = 0;
         output_right = 0;
-    } else if (mode == 0) {  // PID mode
+    } else if (mode == MODE_PID) {
         // Update pid's
         pid_left.Compute();
         pid_right.Compute();
@@ -292,22 +298,33 @@ void joint_state_servie_callback(const JointRequest& request, JointResponse& res
 Callback for wheel speed commands
 */
 void control_cmd_callback(const ottobot_hardware::WheelCmd& cmd_msg) {
-    if (cmd_msg.mode == 0) {
-        if (mode != 0) {  // Turn pid on if off
-            pid_left.SetMode(AUTOMATIC);
-            pid_right.SetMode(AUTOMATIC);
-            mode = 0;
-        }
+    if (cmd_msg.mode == MODE_PID) {
         target_speed_left = cmd_msg.angular_velocity_left;
         target_speed_right = cmd_msg.angular_velocity_right;
-    } else if (cmd_msg.mode == 1) {
-        if (mode == 0) {  // Turn pid off
+        // If commands are zero, turn PID off to ensure stationary
+        if (target_speed_left == 0) {
+            pid_left.SetMode(MANUAL);
+            output_left = 0;
+        } else if (pid_left.GetMode() == MANUAL) {  // Turn individual pid on if off
+            pid_left.SetMode(AUTOMATIC);
+        }
+        if (target_speed_right == 0) {
+            pid_right.SetMode(MANUAL);
+            output_right = 0;
+        } else if (pid_right.GetMode() == MANUAL) {  // Turn individual pid on if off
+            pid_right.SetMode(AUTOMATIC);
+        }
+        mode = MODE_PID;
+    } else if (cmd_msg.mode == MODE_DUTY) {
+        if (mode == MODE_PID) {  // Turn pid off
             pid_left.SetMode(MANUAL);
             pid_right.SetMode(MANUAL);
         }
-        mode = 1;
+        mode = MODE_DUTY;
         output_left = cmd_msg.duty_left;
         output_right = cmd_msg.duty_right;
+        target_speed_left = 0;
+        target_speed_right = 0;
     }
 }
 
@@ -317,12 +334,23 @@ Publish pid state
 void publish_pid_state() {
     if (millis() > pid_state_pub_timer) {
         // Assume front and back wheel speeds/positions are the same
-        pid_state_msg.error = target_speed_left - speed_left;
-        pid_state_msg.output = output_left;
+        float errors[2] = {target_speed_left - speed_left, target_speed_right - speed_right};
+        pid_state_msg.error = errors;
+        float target_speeds[2] = {target_speed_left, target_speed_right};
+        pid_state_msg.target = target_speeds;
+        float outputs[2] = {output_left, output_right};
+        pid_state_msg.output = outputs;
+        char* pid_modes[2] = {
+            (pid_left.GetMode() == MANUAL) ? (char*)"Manual" : (char*)"Auto",
+            (pid_right.GetMode() == MANUAL) ? (char*)"Manual" : (char*)"Auto"
+        };
+        pid_state_msg.pid_mode = pid_modes;
+        pid_state_msg.cmd_mode = (mode == 0) ? "PID" : "Duty";
         pid_state_msg.p_term = pid_left.GetKp();
         pid_state_msg.i_term = pid_left.GetKi();
         pid_state_msg.d_term = pid_left.GetKd();
         pid_state_msg.header.stamp = nh_->now();
+
         pid_state_pub.publish(&pid_state_msg);
         // Publish about every 0.1 seconds
         pid_state_pub_timer = millis() + PUB_INTERVAL_PID_STATE;

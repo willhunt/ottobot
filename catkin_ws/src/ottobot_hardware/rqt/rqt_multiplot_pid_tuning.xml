@@ -35,7 +35,7 @@
                                         <relative_minimum>-1000</relative_minimum>
                                         <type>0</type>
                                     </scale>
-                                    <topic>/joint_state</topic>
+                                    <topic>/hardware/joint_states</topic>
                                     <type>sensor_msgs/JointState</type>
                                 </x_axis>
                                 <y_axis>
@@ -48,7 +48,7 @@
                                         <relative_minimum>-1000</relative_minimum>
                                         <type>0</type>
                                     </scale>
-                                    <topic>/joint_state</topic>
+                                    <topic>/hardware/joint_states</topic>
                                     <type>sensor_msgs/JointState</type>
                                 </y_axis>
                             </axes>
@@ -86,7 +86,7 @@
                                         <relative_minimum>-1000</relative_minimum>
                                         <type>0</type>
                                     </scale>
-                                    <topic>/pid_left_state</topic>
+                                    <topic>/hardware/pid_left_state</topic>
                                     <type>control_msgs/PidState</type>
                                 </x_axis>
                                 <y_axis>
@@ -99,7 +99,7 @@
                                         <relative_minimum>-1000</relative_minimum>
                                         <type>0</type>
                                     </scale>
-                                    <topic>/pid_left_state</topic>
+                                    <topic>/hardware/pid_left_state</topic>
                                     <type>control_msgs/PidState</type>
                                 </y_axis>
                             </axes>
@@ -162,7 +162,7 @@
                                         <relative_minimum>-1000</relative_minimum>
                                         <type>0</type>
                                     </scale>
-                                    <topic>/pid_left_state</topic>
+                                    <topic>/hardware/pid_left_state</topic>
                                     <type>control_msgs/PidState</type>
                                 </x_axis>
                                 <y_axis>
@@ -175,7 +175,7 @@
                                         <relative_minimum>-1000</relative_minimum>
                                         <type>0</type>
                                     </scale>
-                                    <topic>/pid_left_state</topic>
+                                    <topic>/hardware/pid_left_state</topic>
                                     <type>control_msgs/PidState</type>
                                 </y_axis>
                             </axes>

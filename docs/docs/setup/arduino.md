@@ -71,14 +71,14 @@ $ rosrun rosserial_python serial_node.py _port:=/dev/ttyACM0 _baud:=115200
 ### Send message
 Send duty commands
 ```bash
-$ rostopic pub --once /cmd_wheel_state ottobot_hardware/WheelCmd '{mode: 1, duty_left: 100, duty_right: 100}'
-$ rostopic pub --once /cmd_wheel_state ottobot_hardware/WheelCmd '{mode: 1, duty_left: -100, duty_right: -100}'
-$ rostopic pub --once /cmd_wheel_state ottobot_hardware/WheelCmd '{mode: 1, duty_left: 0, duty_right: 0}'
+$ rostopic pub --once /hardware/cmd_joint_state ottobot_hardware/WheelCmd '{mode: 1, duty_left: 100, duty_right: 100}'
+$ rostopic pub --once /hardware/cmd_joint_state ottobot_hardware/WheelCmd '{mode: 1, duty_left: -100, duty_right: -100}'
+$ rostopic pub --once /hardware/cmd_joint_state ottobot_hardware/WheelCmd '{mode: 1, duty_left: 0, duty_right: 0}'
 ```
 
 Control via PID
 ```bash
 $ rostopic pub --once /motor_pid_gains ottobot_hardware/PidSettings '{kp: 10, ki: 0, kd: 0}'  # Set gains
-$ rostopic echo -n 1 /pid_left_state # Check gains are set
-$ rostopic pub --once /cmd_wheel_state ottobot_hardware/WheelCmd '{mode: 0, angular_velocity_left: 5, angular_velocity_right: 0}'
+$ rostopic echo -n 1 /hardware/pid_state # Check gains are set
+$ rostopic pub --once /hardware/cmd_joint_state ottobot_hardware/WheelCmd '{mode: 0, angular_velocity_left: 5, angular_velocity_right: 0}'
 ```

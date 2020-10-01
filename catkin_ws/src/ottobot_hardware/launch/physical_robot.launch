@@ -22,6 +22,7 @@
 
     <!-- Hardware interface -->
     <rosparam file="$(find ottobot_hardware)/config/hardware_params.yaml" command="load" />
+    <rosparam file="$(find ottobot_hardware)/config/joint_limits_params.yaml" command="load" />
     <node name="ottobot_hardware" pkg="ottobot_hardware" type="ottobot_hardware_node" respawn="false" output="screen"
         launch-prefix="$(eval 'gdb -ex run' if debug else '')"> 
     </node>

@@ -1,8 +1,6 @@
 joint_limits:
   wheel_joint:
     has_velocity_limits: true
-    max_velocity: 2.0
+    max_velocity: 14.0
     has_acceleration_limits: true
-    max_acceleration: 5.0
-    has_jerk_limits: true
-    max_jerk: 100.0
+    max_acceleration: 7.0

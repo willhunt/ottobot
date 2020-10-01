@@ -9,7 +9,6 @@
 #include <ottobot_hardware/PidSettings.h>
 #include <ottobot_hardware/JointUpdate.h>
 #include <sensor_msgs/JointState.h>
-#include <control_msgs/PidState.h>
 
 #define ENC_COUNT_PER_REV 300  //1200
 #define PIN_PWM_LEFT 5  // PWM1
@@ -29,6 +28,9 @@
 
 #define LIMIT_DUTY_MIN 25
 #define LIMIT_DUTY_MAX 255
+
+#define MODE_PID 0
+#define MODE_DUTY 1
 
 void drive_controller_setup(ros::NodeHandle* nh);
 void control_cmd_callback(const ottobot_hardware::WheelCmd& cmd_msg);

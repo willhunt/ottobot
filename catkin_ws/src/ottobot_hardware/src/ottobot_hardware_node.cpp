@@ -6,13 +6,13 @@
     Control loop for ottobot
     Source: http://wiki.ros.org/ros_control/Tutorials/Create%20your%20own%20hardware%20interface
 */
-void control_loop(OttobotHardware& hw_interface, controller_manager::ControllerManager& cm, ros::Time& last_time) {
+void control_loop(OttobotHardwareInterface& hw_interface, controller_manager::ControllerManager& cm, ros::Time& last_time) {
     ros::Time this_time = ros::Time::now();
     ros::Duration elapsed_time = this_time - last_time;
     // Process control loop
     // hw_interface.read();
     cm.update(ros::Time::now(), elapsed_time);
-    hw_interface.write();
+    hw_interface.write(elapsed_time);
 
     last_time = this_time;
 }
@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
     // Create a ROS NodeHandle object
     ros::NodeHandle nh;
     // Instantiate Hardware Interface
-    OttobotHardware hw_interface = OttobotHardware(&nh);
+    OttobotHardwareInterface hw_interface = OttobotHardwareInterface(&nh);
     // Add to controller manager
     controller_manager::ControllerManager cm(&hw_interface, nh);
 

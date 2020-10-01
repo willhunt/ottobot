@@ -54,6 +54,7 @@ add_message_files(
   FILES
   WheelCmd.msg
   PidSettings.msg
+  BasePidState.msg
 )
 
 ## Generate services in the 'srv' folder
