@@ -17,6 +17,8 @@ ros::Subscriber<ottobot_hardware::PidSettings> pid_settings_sub("hardware/motor_
 sensor_msgs::JointState joint_state_msg;
 unsigned long joint_state_pub_timer = 0;
 ros::Publisher joint_state_pub("hardware/joint_states", &joint_state_msg);
+// Joint state service server
+ros::ServiceServer<JointRequest, JointResponse> joint_state_service("/hardware/joint_update", &joint_state_servie_callback);
 // PID publisher
 control_msgs::PidState pid_state_msg;
 unsigned long pid_state_pub_timer = 0;
@@ -62,6 +64,8 @@ void drive_controller_setup(ros::NodeHandle *nh) {
     nh_->subscribe(wheel_cmd_sub);
     // Subscribe to pid settings topic
     nh_->subscribe(pid_settings_sub);
+    // Advertise ServiceServer
+    nh_->advertiseService(joint_state_service);
 
     // Setup wheel PID controllers
     pid_left.SetOutputLimits(-255, 255);
@@ -114,19 +118,7 @@ void update_joint_state() {
         double rotations_left = (double)ticks_left / (double)ENC_COUNT_PER_REV;
         double speed_left_new = 1000 * TWO_PI * rotations_left / (double)(time_current - time_last_joint_udpate);  // TWO_PI defined in arduino.h
         // Filter speed
-        // Lag filter
-        // speed_left = speed_left * SPEED_FILTER_VAL + speed_left_new * (1 - SPEED_FILTER_VAL);
-        // Moving average filter
-        // ma_speed_left_sum -= ma_speed_left_readings[ma_speed_left_index];  // Remove the oldest entry from the sum
-        // ma_speed_left_sum += speed_left_new;  // Add new value to sum
-        ma_speed_left_readings[ma_speed_left_index] = speed_left_new;  // Replace with new value in store
-        ma_speed_left_index = (ma_speed_left_index + 1) % MA_FILTER_WINDOW_SIZE;  // Increment index
-        ma_speed_left_sum = 0;
-        for (int i = 0; i < MA_FILTER_WINDOW_SIZE; i++) {
-            ma_speed_left_sum += ma_speed_left_readings[i];
-        }
-        speed_left = ma_speed_left_sum / MA_FILTER_WINDOW_SIZE;
-        // speed_left = (speed_left < 0.0000000001) ? 0 : speed_left;  // Round low readings to zero
+        moving_average_filter(ma_speed_left_sum, ma_speed_left_readings, speed_left, speed_left_new, ma_speed_left_index);
         //Position
         position_left = constrain_angle(position_left + rotations_left);
 
@@ -134,26 +126,41 @@ void update_joint_state() {
         double rotations_right = (double)ticks_right / (double)ENC_COUNT_PER_REV;
         double speed_right_new = 1000 * TWO_PI * rotations_right / (double)(time_current - time_last_joint_udpate);
         // Filter speed
-        // Lag filter
-        // speed_right = speed_right * SPEED_FILTER_VAL + speed_right_new * (1 - SPEED_FILTER_VAL);
-        // Moving average filter
-        // ma_speed_right_sum -= ma_speed_right_readings[ma_speed_right_index];  // Remove the oldest entry from the sum
-        // ma_speed_right_sum += speed_right_new;
-        ma_speed_right_sum = 0;
-        for (int i = 0; i < MA_FILTER_WINDOW_SIZE; i++) {
-            ma_speed_right_sum += ma_speed_right_readings[i];
-        }
-        ma_speed_right_readings[ma_speed_right_index] = speed_right_new;
-        ma_speed_right_index = (ma_speed_right_index + 1) % MA_FILTER_WINDOW_SIZE;
-        speed_right = ma_speed_right_sum / MA_FILTER_WINDOW_SIZE;
-        // speed_right = (speed_right < 0.0000000001) ? 0 : speed_right;  // Round low readings to zero
+        moving_average_filter(ma_speed_right_sum, ma_speed_right_readings, speed_right, speed_right_new, ma_speed_right_index);
         // Position
         position_right = constrain_angle(position_right + rotations_right);
+
         // Reset variables
         time_last_joint_udpate = time_current;
         ticks_left = 0;
         ticks_right = 0;
     }
+}
+
+/*
+Lag Filter
+*/
+void lag_filter(double& speed, double& sensor_speed) {
+    speed = speed * SPEED_FILTER_VAL + sensor_speed * (1 - SPEED_FILTER_VAL);
+}
+
+/*
+Moving average filter
+*/
+void moving_average_filter(double& sum, double* readings, double& speed, double& sensor_speed, int& index) {
+// This method does not converge to zero due to floating point math but is faster
+    // sum -= readings[index];  // Remove the oldest entry from the sum
+    // sum += sensor_speed;
+// This method is more accurate but includes a short loop
+    sum = 0;
+    for (int i = 0; i < MA_FILTER_WINDOW_SIZE; i++) {
+        sum += readings[i];
+    }
+    readings[index] = sensor_speed;
+    index = (index + 1) % MA_FILTER_WINDOW_SIZE;
+    speed = sum / MA_FILTER_WINDOW_SIZE;
+// Round low readings to zero, required optionally for first method
+    // speed = (speed < 0.0000000001) ? 0 : speed;  
 }
 
 /*
@@ -264,6 +271,21 @@ void publish_joint_state() {
         // Publish about every 0.5 seconds
         joint_state_pub_timer = millis() + PUB_INTERVAL_JOINT_STATE;
     }
+}
+
+/*
+Return wheel speed and position as service server
+*/
+void joint_state_servie_callback(const JointRequest& request, JointResponse& response) {
+    float joint_positions[4] = {position_left, position_left, position_right, position_right};
+    response.position = joint_positions;
+
+    float joint_speeds[4] = {speed_left, speed_left, speed_right, speed_right};
+    response.velocity = joint_speeds;
+
+    // Populate effort with zeros as unknown.
+    float joint_efforts[4] = {0, 0, 0, 0};
+    response.effort = joint_efforts;
 }
 
 /*

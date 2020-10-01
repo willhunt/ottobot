@@ -9,8 +9,8 @@ OttobotHardware::OttobotHardware(ros::NodeHandle* nh) :
     // Setup joint interfaces
     init_joint_interfaces();
     // Subscribe to wheel state from microcontroller
-    wheel_state_subscriber_ = nh_->subscribe("/hardware/joint_states", 10, 
-            &OttobotHardware::wheel_state_callback, this);
+    // wheel_state_subscriber_ = nh_->subscribe("/hardware/joint_states", 10, 
+    //         &OttobotHardware::wheel_state_callback, this);
     // Publish wheel state for microcontroller
     wheel_state_publisher_ = nh_->advertise<ottobot_hardware::WheelCmd>("/hardware/cmd_joint_state", 1);
     // Setup service client for sending requests to arduino

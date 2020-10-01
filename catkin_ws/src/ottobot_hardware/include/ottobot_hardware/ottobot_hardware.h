@@ -15,7 +15,7 @@ class OttobotHardware : public OttobotHardwareInterface {
 
     private:
         // Subscribe to wheel velocity from microcontroller
-        ros::Subscriber wheel_state_subscriber_;
+        // ros::Subscriber wheel_state_subscriber_;
         // Publish wheel velocities to microcontroller
         ros::Publisher wheel_state_publisher_;
         // Client capable of requesting state service from arduino

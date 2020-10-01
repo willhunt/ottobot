@@ -54,6 +54,13 @@ $ rosrun rosserial_arduino make_libraries.py ~/Arduino/libraries
 ```
 This will create the `ros_lib` arduino library folder in the arduino library directory. Any desired location can be specified.
 
+A script has been created to automate this task including copying of the modified `ArduinoHardware.h` file (see [Arduino Libraries](./arduino.md#arduino-libraries) section).
+```bash
+$ cd arduino/scripts
+$ sudo chmod +x make_arduino_libraries.sh
+$ ./make_arduino_libraries.sh
+```
+
 ## ROS Interfacing
 To communicate with the Arduino a ROS node needs to be launched on the host system. Assuming a `roscore` is running this can be launched using:
 ```bash

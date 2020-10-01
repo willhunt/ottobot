@@ -7,6 +7,7 @@
 // #include <PID_AutoTune_v0.h>
 #include <ottobot_hardware/WheelCmd.h>
 #include <ottobot_hardware/PidSettings.h>
+#include <ottobot_hardware/JointUpdate.h>
 #include <sensor_msgs/JointState.h>
 #include <control_msgs/PidState.h>
 
@@ -23,7 +24,7 @@
 #define PUB_INTERVAL_JOINT_STATE 20  // [ms]
 #define PUB_INTERVAL_PID_STATE 20  // [ms]
 #define UPDATE_INTERVAL_JOINT_STATE 20  // [ms]
-// #define SPEED_FILTER_VAL 0.8
+#define SPEED_FILTER_VAL 0.8
 #define MA_FILTER_WINDOW_SIZE 10
 
 #define LIMIT_DUTY_MIN 25
@@ -45,6 +46,11 @@ void set_drive_gains(double kp, double ki, double kd);
 void pid_settings_callback(const ottobot_hardware::PidSettings& settings_msg);
 double constrain_angle(double theta);
 void drive_motors(double output_left, double output_right);
+typedef ottobot_hardware::JointUpdate::Request JointRequest;
+typedef ottobot_hardware::JointUpdate::Response JointResponse;
+void joint_state_servie_callback(const JointRequest& request, JointResponse& response);
+void moving_average_filter(double& sum, double* readings, double& speed, double& sensor_speed, int& index);
+void lag_filter(double& speed, double& sensor_speed);
 
 extern bool low_voltage_cut_off;
 
