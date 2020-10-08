@@ -1,8 +1,8 @@
 <launch>
     <!-- Args-->
-    <arg name="goalnav_on" default="false"/>
-    <arg name="amcl_on" default="false"/>
-    <arg name="slam_on" default="false"/>
+    <arg name="enable_goalnav" default="false"/>
+    <arg name="enable_amcl" default="false"/>
+    <arg name="enable_slam" default="false"/>
 
     <!-- Robot description -->
     <include file="$(find ottobot_description)/launch/robot_description.launch"/>
@@ -18,9 +18,9 @@
 
     <!-- Navigation -->
     <include file="$(find ottobot_navigation)/launch/navigation.launch">
-        <arg name="goalnav_on" default="$(arg goalnav_on)"/>
-        <arg name="amcl_on" default="$(arg amcl_on)"/>
-        <arg name="slam_on" default="$(arg slam_on)"/>
+        <arg name="enable_goalnav" default="$(arg enable_goalnav)"/>
+        <arg name="enable_amcl" default="$(arg enable_amcl)"/>
+        <arg name="enable_slam" default="$(arg enable_slam)"/>
     </include>
     
 

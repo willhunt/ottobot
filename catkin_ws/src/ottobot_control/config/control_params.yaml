@@ -13,8 +13,8 @@ ottobot_diff_drive_controller:
 
   odom_frame_id: "/odom"
   base_frame_id: robot_footprint
-  # May not need this after fusing odom with imu
-  enable_odom_tf: true  # Required for transform to odom frame (to appear in rviz fixed frame)
+  # Don't publish here, using sensor fusion with IMU to publish instead
+  enable_odom_tf: false  # Required for transform to odom frame (to appear in rviz fixed frame)
 
   # Wheel separation and radius multipliers
   wheel_separation_multiplier: 1.5 # default: 1.0

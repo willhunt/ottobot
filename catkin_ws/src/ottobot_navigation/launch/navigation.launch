@@ -1,15 +1,15 @@
 <launch>
-    <arg name="goalnav_on" default="false"/>
-    <arg name="amcl_on" default="false"/>
-    <arg name="slam_on" default="true"/>
+    <arg name="enable_goalnav" default="false"/>
+    <arg name="enable_amcl" default="false"/>
+    <arg name="enable_slam" default="true"/>
 
     <!-- SLAM mapping -->
-    <group if="$(arg slam_on)">
+    <group if="$(arg enable_slam)">
         <include file="$(find ottobot_navigation)/launch/mapping.launch"/>
     </group>
 
     <!-- Move base node name="move_base" -->
-    <group if="$(arg goalnav_on)">
+    <group if="$(arg enable_goalnav)">
         <node name="move_base" pkg="move_base" type="move_base" respawn="false" output="screen">
 
             <remap from="cmd_vel" to="/ottobot_diff_drive_controller/cmd_vel" />
@@ -26,7 +26,7 @@
     </group>
 
     <!-- AMCl node name="amcl" -->
-    <group if="$(arg amcl_on)">
+    <group if="$(arg enable_amcl)">
         <!-- Map server node name="map_server" -->
         <arg name="map_file" default="$(find ottobot_navigation)/maps/map.yaml"/>
         <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />

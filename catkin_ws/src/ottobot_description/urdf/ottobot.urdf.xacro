@@ -5,7 +5,9 @@
 
     <!-- SUB-COMPONENTS -->
     <xacro:include filename="$(find ottobot_description)/urdf/ottobot_wheel.urdf.xacro" />
+    <xacro:arg name="use_kinect" default="false" />
     <xacro:include filename="$(find ottobot_description)/urdf/kinect.urdf.xacro" />
+    <xacro:arg name="use_lidar" default="false" />
 
     <!-- PROPERTIES -->
     <xacro:property name="M_PI" value="3.14159"/>
@@ -34,7 +36,7 @@
 	<xacro:property name="cam_oy" value="0" />
     
     <!-- PLUGINS -->
-    <xacro:include filename="$(find ottobot_description)/urdf/roscontrol.gazebo.xacro" />
+    <xacro:include filename="$(find ottobot_description)/urdf/ottobot.gazebo.xacro" />
 
     <!-- PARTS -->
     <link name="${parent}"></link>
@@ -91,9 +93,16 @@
 
 
     <!-- SENSORS - - - - - - - - -->
-    <xacro:sensor_kinect parent="chassis">
-    </xacro:sensor_kinect>
+    <link name="imu_link"/>
+    <joint name="imu_joint" type="fixed">
+        <parent link="${parent}"/>
+        <child link="imu_link"/>
+        <origin xyz="-0.031 0.035 0.183" rpy="0 0 0"/>
+    </joint>
 
+    <xacro:if value="$(arg use_kinect)">
+        <xacro:sensor_kinect parent="chassis"></xacro:sensor_kinect>
+    </xacro:if>
 
     <!-- COLORS - - - - - - - - -->
     <gazebo reference="left_wheel">

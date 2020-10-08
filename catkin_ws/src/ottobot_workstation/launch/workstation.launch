@@ -1,19 +1,19 @@
 <launch>
     <!-- Files to launch on static workstation for interfacing and monitoring robot -->
-    <arg name="goalnav_on" default="false"/>
-    <arg name="teleop_on" default="true"/>
-    <arg name="joystick_on" default="false"/>
-    <arg name="amcl_on" default="false"/>
-    <arg name="slam_on" default="false"/>
+    <arg name="enable_goalnav" default="false"/>
+    <arg name="enable_teleop" default="true"/>
+    <arg name="enable_joystick" default="false"/>
+    <arg name="enable_amcl" default="false"/>
+    <arg name="enable_slam" default="false"/>
 
     <!-- RQT Teleop Controller -->
-    <group if="$(arg teleop_on)">
+    <group if="$(arg enable_teleop)">
         <node name="rqt_drive" pkg="rqt_robot_steering" type="rqt_robot_steering" >
             <remap from="cmd_vel" to="/ottobot_diff_drive_controller/cmd_vel" />
         </node>
     </group>
     <!-- JOYSTICK using xbox controller-->
-    <group if="$(arg joystick_on)">  
+    <group if="$(arg enable_joystick)">  
         <param name="joy_node/dev" value="/dev/input/js0" />
         <node name="joystick" pkg="joy" type="joy_node">
             <param name="autorepeat_rate" value="20" />
@@ -25,13 +25,13 @@
     </group>
 
     <!--launch rviz-->
-    <group if="$(eval slam_on)">
+    <group if="$(eval enable_slam)">
         <node name="rviz_slam" pkg="rviz" type="rviz" respawn="false" args="-d $(find ottobot_workstation)/rviz/slam_config.rviz"/>
     </group>
-    <group if="$(eval goalnav_on)">
+    <group if="$(eval enable_goalnav)">
         <node name="rviz_nav" pkg="rviz" type="rviz" respawn="false" args="-d $(find ottobot_workstation)/rviz/nav_config.rviz"/>
     </group>
-    <group if="$(eval teleop_on or joystick_on)">
+    <group if="$(eval enable_teleop or enable_joystick)">
         <node name="rviz_teleop" pkg="rviz" type="rviz" respawn="false" args="-d $(find ottobot_workstation)/rviz/teleop_config.rviz"/>
     </group>
 

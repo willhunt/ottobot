@@ -1,29 +1,29 @@
 <launch>
     <!-- Args-->
     <arg name="debug" default="false" />
-    <arg name="goalnav_on" default="false" />
-    <arg name="amcl_on" default="false" />
-    <arg name="slam_on" default="true" />
-    <arg name="teleop_on" default="true" />
-    <arg name="joystick_on" default="false" />
-
-    <!-- Robot and world -->
-    <include file="$(find ottobot_gazebo)/launch/world.launch"/>
+    <arg name="enable_goalnav" default="false" />
+    <arg name="enable_amcl" default="false" />
+    <arg name="enable_slam" default="false" />
+    <arg name="enable_teleop" default="true" />
+    <arg name="enable_joystick" default="false" />
 
     <!-- Robot onboard launch -->
     <include file="$(find ottobot_robot)/launch/robot.launch">
-        <arg name="goalnav_on" default="$(arg goalnav_on)"/>
-        <arg name="amcl_on" default="$(arg amcl_on)"/>
-        <arg name="slam_on" default="$(arg slam_on)"/>
+        <arg name="enable_goalnav" default="$(arg enable_goalnav)"/>
+        <arg name="enable_amcl" default="$(arg enable_amcl)"/>
+        <arg name="enable_slam" default="$(arg enable_slam)"/>
     </include>
+    
+    <!-- Robot and world -->
+    <include file="$(find ottobot_gazebo)/launch/world.launch"/>
 
     <!-- Workstation launch -->
     <include file="$(find ottobot_workstation)/launch/workstation.launch">
-        <arg name="goalnav_on" default="$(arg goalnav_on)" />
-        <arg name="amcl_on" default="$(arg amcl_on)" />
-        <arg name="slam_on" default="$(arg slam_on)" />
-        <arg name="teleop_on" default="$(arg teleop_on)" />
-        <arg name="joystick_on" default="$(arg joystick_on)" />
+        <arg name="enable_goalnav" default="$(arg enable_goalnav)" />
+        <arg name="enable_amcl" default="$(arg enable_amcl)" />
+        <arg name="enable_slam" default="$(arg enable_slam)" />
+        <arg name="enable_teleop" default="$(arg enable_teleop)" />
+        <arg name="enable_joystick" default="$(arg enable_joystick)" />
     </include>
     
     

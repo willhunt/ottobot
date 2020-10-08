@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <launch>
+    <!-- Args-->
+    <arg name="enable_sensor_fusion" default="true" />
+
     <!--  Load drive controller -->
     <rosparam file="$(find ottobot_control)/config/control_params.yaml" command="load" />
     <node name="ottobot_controller_manager" pkg="controller_manager" type="spawner" respawn="false" output="screen"
         args="ottobot_joint_state_controller ottobot_diff_drive_controller" >
     </node>
 
+    <!-- Sensor fusino for localisation -->
+    <group if="$(arg enable_sensor_fusion)" >
+        <node name="ottobot_localisation" pkg="robot_localization" type="ukf_localization_node" output="screen">
+            <rosparam file="$(find ottobot_control)/config/localisation_params.yaml" command="load" />
+        </node>
+    </group>
 </launch>

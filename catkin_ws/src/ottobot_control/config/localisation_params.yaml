@@ -1,0 +1,39 @@
+# Details: http://docs.ros.org/melodic/api/robot_localization/html/state_estimation_nodes.html
+
+odom_frame: odom
+base_link_frame: robot_footprint
+# If you are only fusing continuous position data such as wheel encoder odometry, 
+#   visual odometry, or IMU data, set world_frame to your odom_frame value.
+world_frame: odom
+
+two_d_mode: true  # 2D - fuse to 0 for z direction
+
+frequency: 50
+
+# http://docs.ros.org/melodic/api/robot_localization/html/configuring_robot_localization.html
+# Format for config
+# [ X,        Y,         Z,
+#   roll,     pitch,     yaw,
+#   X_dot,    Y_dot,     Z_dot,
+#   roll_dot, pitch_dot, yaw_dot,
+#   X_ddot,   Y_ddot,    Z_ddot   ]
+
+odom0: ottobot_diff_drive_controller/odom
+odom0_config: [false,  false,  false,
+               false, false, false,
+               true,  true, false,
+               false, false, true,
+               false, false, false]
+odom0_differential: false
+odom0_queue_size: 10
+
+imu0: imu/data
+# Angular velocity and linear acceleration
+imu0_config: [false, false, false,
+              false, false, true,
+              false, false, false,
+              false, false, true,
+              true, false, false]
+imu0_differential: true
+imu0_queue_size: 10
+imu0_remove_gravitational_acceleration: true
