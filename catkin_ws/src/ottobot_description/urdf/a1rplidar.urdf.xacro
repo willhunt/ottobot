@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<robot name="sensor_lidar" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:include filename="$(find ottobot_description)/urdf/a1rplidar.gazebo.xacro"/>
+
+    <xacro:macro name="sensor_lidar" params="parent">
+        <joint name="lidar_joint" type="fixed">
+            <origin xyz="${lidar_px} ${lidar_py} ${lidar_pz}" rpy="${lidar_or} ${lidar_op} ${lidar_oy}"/>
+            <parent link="${parent}"/>
+            <child link="lidar_link" />
+        </joint>
+        <link name="lidar_link">
+            <collision>
+                <geometry>
+                    <box size="0.0985 0.07 0.06" />
+                </geometry>
+            </collision>
+            <visual>
+                <geometry>
+                    <box size="0.0985 0.07 0.06" />
+                </geometry>
+            </visual>
+            <inertial>
+                <mass value="0.17" />
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001" />
+            </inertial>
+        </link>
+
+        <!-- Lidar sensor for simulation defined in a1rplidar.gazebo.xacro -->
+        <xacro:sim_gazebo_a1rplidar />
+    </xacro:macro>
+</robot>

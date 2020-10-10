@@ -1,11 +1,17 @@
 <launch>
     <!-- Args-->
     <arg name="enable_goalnav" default="false"/>
+    <arg name="enable_nomap" default="false" />
     <arg name="enable_amcl" default="false"/>
     <arg name="enable_slam" default="false"/>
+    <arg name="enable_lidar" default="false" />
+    <arg name="enable_kinect" default="false" />
 
     <!-- Robot description -->
-    <include file="$(find ottobot_description)/launch/robot_description.launch"/>
+    <include file="$(find ottobot_description)/launch/robot_description.launch">
+        <arg name="enable_lidar" default="$(arg enable_lidar)"/>
+        <arg name="enable_kinect" default="$(arg enable_kinect)"/>
+    </include>
 
     <!-- Drive controller -->
     <include file="$(find ottobot_control)/launch/control.launch"/>
@@ -13,12 +19,14 @@
     <!-- Sensors -->
     <!-- <include file="$(find ottobot_sense)/launch/sense.launch"/> -->
 
+
     <!-- Send robot states to tf -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>
 
     <!-- Navigation -->
     <include file="$(find ottobot_navigation)/launch/navigation.launch">
         <arg name="enable_goalnav" default="$(arg enable_goalnav)"/>
+        <arg name="enable_nomap" default="$(arg enable_nomap)"/>
         <arg name="enable_amcl" default="$(arg enable_amcl)"/>
         <arg name="enable_slam" default="$(arg enable_slam)"/>
     </include>

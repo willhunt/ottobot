@@ -5,9 +5,14 @@
 
     <!-- SUB-COMPONENTS -->
     <xacro:include filename="$(find ottobot_description)/urdf/ottobot_wheel.urdf.xacro" />
-    <xacro:arg name="use_kinect" default="false" />
-    <xacro:include filename="$(find ottobot_description)/urdf/kinect.urdf.xacro" />
-    <xacro:arg name="use_lidar" default="false" />
+    <xacro:arg name="enable_kinect" default="false" />
+    <xacro:if value="$(arg enable_kinect)">
+        <xacro:include filename="$(find ottobot_description)/urdf/kinect.urdf.xacro" />
+    </xacro:if>
+    <xacro:arg name="enable_lidar" default="false" />
+    <xacro:if value="$(arg enable_lidar)">
+        <xacro:include filename="$(find ottobot_description)/urdf/a1rplidar.urdf.xacro" />
+    </xacro:if>
 
     <!-- PROPERTIES -->
     <xacro:property name="M_PI" value="3.14159"/>
@@ -34,6 +39,14 @@
 	<xacro:property name="cam_or" value="0" />
 	<xacro:property name="cam_op" value="0" />
 	<xacro:property name="cam_oy" value="0" />
+
+    <!-- A1 Lidar pose -->
+    <xacro:property name="lidar_px" value="0.06" />
+	<xacro:property name="lidar_py" value="0" />
+	<xacro:property name="lidar_pz" value="${0.04 + chassis_height/2}" />
+	<xacro:property name="lidar_or" value="0" />
+	<xacro:property name="lidar_op" value="0" />
+	<xacro:property name="lidar_oy" value="0" />
     
     <!-- PLUGINS -->
     <xacro:include filename="$(find ottobot_description)/urdf/ottobot.gazebo.xacro" />
@@ -100,8 +113,12 @@
         <origin xyz="-0.031 0.035 0.183" rpy="0 0 0"/>
     </joint>
 
-    <xacro:if value="$(arg use_kinect)">
+    <xacro:if value="$(arg enable_kinect)">
         <xacro:sensor_kinect parent="chassis"></xacro:sensor_kinect>
+    </xacro:if>
+
+    <xacro:if value="$(arg enable_lidar)">
+        <xacro:sensor_lidar parent="chassis"></xacro:sensor_lidar>
     </xacro:if>
 
     <!-- COLORS - - - - - - - - -->

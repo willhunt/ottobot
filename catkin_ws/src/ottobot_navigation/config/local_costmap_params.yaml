@@ -1,6 +1,5 @@
 local_costmap:
    global_frame: odom #map
-   robot_base_frame: robot_footprint
    update_frequency: 5.0  # Default: 5.0 Hz
    publish_frequency: 5.0 # Default: 0 Hz
    width: 10.0

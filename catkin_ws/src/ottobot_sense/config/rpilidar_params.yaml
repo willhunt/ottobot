@@ -1,0 +1,5 @@
+serial_port: /dev/ttyUSB0
+serial_baudrate: 115200
+frame_id: laser
+inverted: false  # Indicates whether the LIDAR is mounted inverted.
+angle_compensate: true  # Indicates whether the driver needs do angle compensation.

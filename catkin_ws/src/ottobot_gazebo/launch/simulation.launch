@@ -1,17 +1,23 @@
 <launch>
     <!-- Args-->
     <arg name="debug" default="false" />
-    <arg name="enable_goalnav" default="false" />
+    <arg name="enable_goalnav" default="true" />
+    <arg name="enable_nomap" default="true" />
     <arg name="enable_amcl" default="false" />
     <arg name="enable_slam" default="false" />
-    <arg name="enable_teleop" default="true" />
+    <arg name="enable_teleop" default="false" />
     <arg name="enable_joystick" default="false" />
+    <arg name="enable_lidar" default="true" />
+    <arg name="enable_kinect" default="false" />
 
     <!-- Robot onboard launch -->
     <include file="$(find ottobot_robot)/launch/robot.launch">
         <arg name="enable_goalnav" default="$(arg enable_goalnav)"/>
+        <arg name="enable_nomap" default="$(arg enable_nomap)"/>
         <arg name="enable_amcl" default="$(arg enable_amcl)"/>
         <arg name="enable_slam" default="$(arg enable_slam)"/>
+        <arg name="enable_lidar" default="$(arg enable_lidar)"/>
+        <arg name="enable_kinect" default="$(arg enable_kinect)"/>
     </include>
     
     <!-- Robot and world -->
@@ -20,6 +26,7 @@
     <!-- Workstation launch -->
     <include file="$(find ottobot_workstation)/launch/workstation.launch">
         <arg name="enable_goalnav" default="$(arg enable_goalnav)" />
+        <arg name="enable_nomap" default="$(arg enable_nomap)" />
         <arg name="enable_amcl" default="$(arg enable_amcl)" />
         <arg name="enable_slam" default="$(arg enable_slam)" />
         <arg name="enable_teleop" default="$(arg enable_teleop)" />

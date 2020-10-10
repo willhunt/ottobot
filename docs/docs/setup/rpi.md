@@ -1,41 +1,39 @@
----
-layout: page
-title: Raspberry Pi
-description: Raspberry Pi 3 B+ setup notes ROS setup links and SSH interface.
----
+# Raspberry Pi Setup
+Useful resources:
+* Install Ubuntu Mate: [The Robotics Back-End](https://roboticsbackend.com/install-ubuntu-mate-18-04-on-raspberry-pi-3-b/)
+* Install ROS: [The Robotics Back-End](https://roboticsbackend.com/install-ros-on-raspberry-pi-3/)
 
-# Notes for using Raspberry Pi with ROS
-1. [Installation](#installation)
-2. [Interface](#interface)
+## Install Ubuntu Server 18
+Install Ubuntu Server: [Ubuntu Official Guide](https://ubuntu.com/download/raspberry-pi)
 
-## Installation
-Install Ubuntu Mate: [The Robotics Back-End](https://roboticsbackend.com/install-ubuntu-mate-18-04-on-raspberry-pi-3-b/)
-
-Install ROS: [The Robotics Back-End](https://roboticsbackend.com/install-ros-on-raspberry-pi-3/)
-
-### Additional steps
-```bash
-$ echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
-$ 
-$ sudo apt-get install python-rosdep
-$ sudo rosdep init
-$ rosdep update
-```
-
-## Interface
+## Connecting
 Connect to raspberry pi via ssh:
 ```bash
 $ ssh <username>@<ip address>
 ```
 In my case:
 ```bash
-$ ssh will@192.168.0.16
+$ ssh ubuntu@192.168.0.21
+```
+Add a new user if desired, in this cas `otto`:
+```bash
+$ sudo adduser otto
+$ sudo usermod -a -G sudo otto
+```
+Follow prompts and then reconnect with new user:
+$ exit
+$ ssh otto@192.168.0.21
 ```
 
-Shutdown
+## Additional setup with script
+Once Ubuntu is installed, download the GitHub repository
 ```bash
-$ sudo shutdown now
+$ git clone https://github.com/willhunt/ottobot.git
+$ cd ottobot/setup
+$ chmod +x setup_raspi.sh
+$ ./setup_raspi.sh
 ```
+
 
 ## Catkin Build
 Building large nodes with all cores can cause issues so specifying 2 can be faster and more reliable:

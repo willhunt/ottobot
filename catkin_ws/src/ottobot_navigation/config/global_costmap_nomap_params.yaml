@@ -1,0 +1,4 @@
+global_costmap:
+  global_frame: odom
+  static_map: false  # Determines whether or not the costmap should initialize itself based on a map served by the map_server
+  rolling_window: true  # If the static_map parameter is set to true, this parameter must be set to false.

@@ -1,7 +1,8 @@
 <launch>
     <!-- Files to launch on static workstation for interfacing and monitoring robot -->
-    <arg name="enable_goalnav" default="false"/>
-    <arg name="enable_teleop" default="true"/>
+    <arg name="enable_goalnav" default="true"/>
+    <arg name="enable_nomap" default="true"/>
+    <arg name="enable_teleop" default="false"/>
     <arg name="enable_joystick" default="false"/>
     <arg name="enable_amcl" default="false"/>
     <arg name="enable_slam" default="false"/>
@@ -29,7 +30,12 @@
         <node name="rviz_slam" pkg="rviz" type="rviz" respawn="false" args="-d $(find ottobot_workstation)/rviz/slam_config.rviz"/>
     </group>
     <group if="$(eval enable_goalnav)">
-        <node name="rviz_nav" pkg="rviz" type="rviz" respawn="false" args="-d $(find ottobot_workstation)/rviz/nav_config.rviz"/>
+        <group if="$(eval enable_nomap)">
+            <node name="rviz_nav_nomap" pkg="rviz" type="rviz" respawn="false" args="-d $(find ottobot_workstation)/rviz/nav_nomap_config.rviz"/>
+        </group>
+        <group unless="$(eval enable_nomap)">
+            <node name="rviz_nav" pkg="rviz" type="rviz" respawn="false" args="-d $(find ottobot_workstation)/rviz/nav_config.rviz"/>
+        </group>
     </group>
     <group if="$(eval enable_teleop or enable_joystick)">
         <node name="rviz_teleop" pkg="rviz" type="rviz" respawn="false" args="-d $(find ottobot_workstation)/rviz/teleop_config.rviz"/>

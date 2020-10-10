@@ -1,10 +1,22 @@
 <launch>
-    <!-- Lauch node to convert kinect depth image to a laster scan -->
-    <!-- http://wiki.ros.org/depthimage_to_laserscan -->
-    <node name="depthimage_to_laserscan" pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" output="log">
-        <remap from="image" to="/camera/depth/image_raw" />
+    <arg name="enable_kinect" default="false"/>
+    <arg name="enable_lidar" default="false"/>
 
-        <rosparam file="$(find ottobot_sense)/config/depth_to_laser_params.yaml" command="load" />
-    </node>
+    <!-- KINECT-->
+    <group if="$(arg enable_kinect)">  
+        <!-- Lauch node to convert kinect depth image to a laster scan -->
+        <!-- http://wiki.ros.org/depthimage_to_laserscan -->
+        <node name="depthimage_to_laserscan" pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" output="log">
+            <remap from="image" to="/camera/depth/image_raw" />
 
+            <rosparam file="$(find ottobot_sense)/config/depth_to_laser_params.yaml" command="load" />
+        </node>
+    </group>
+
+    <!-- A1 LIDAR -->
+    <group if="$(arg enable_lidar)"> 
+        <node name="rplidar_node" pkg="rplidar_ros" type="rplidarNode" output="screen">
+            <rosparam file="$(find ottobot_sense)/config/rpilidar_params.yaml" command="load" />
+        </node
+    </group>
 </launch>

@@ -67,6 +67,7 @@ module.exports = {
           collapsable: false,
           children: [
             '',
+            'local_network',
             'motor_control',
             'battery',
             'imu',

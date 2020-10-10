@@ -62,6 +62,21 @@ $ ./make_arduino_libraries.sh
 ```
 
 ## ROS Interfacing
+### Port
+Find the Arduino port using:
+```bash
+$ ls /dev/ttyACM*
+```
+Or possibly:
+```bash
+$ ls /dev/ttyUSB*
+```
+On some systems (raspberry pi) the user needs to be added to the dialout group to use the serial port. Here we add the user `otto`:
+```
+$ sudo usermod -a -G dialout otto
+```
+
+### Running a Node
 To communicate with the Arduino a ROS node needs to be launched on the host system. Assuming a `roscore` is running this can be launched using:
 ```bash
 $ source devel/setup.bash

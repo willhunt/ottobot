@@ -1,7 +1,8 @@
 <launch>
     <arg name="enable_goalnav" default="false"/>
+    <arg name="enable_nomap" default="true"/>
     <arg name="enable_amcl" default="false"/>
-    <arg name="enable_slam" default="true"/>
+    <arg name="enable_slam" default="false"/>
 
     <!-- SLAM mapping -->
     <group if="$(arg enable_slam)">
@@ -21,6 +22,8 @@
             <rosparam file="$(find ottobot_navigation)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
             <rosparam file="$(find ottobot_navigation)/config/local_costmap_params.yaml" command="load" />
             <rosparam file="$(find ottobot_navigation)/config/global_costmap_params.yaml" command="load" />
+            <rosparam file="$(find ottobot_navigation)/config/global_costmap_nomap_params.yaml" command="load" if="$(arg enable_nomap)"/>
+            <rosparam file="$(find ottobot_navigation)/config/global_costmap_map_params.yaml" command="load" unless="$(arg enable_nomap)"/>
             <rosparam file="$(find ottobot_navigation)/config/base_local_planner_params.yaml" command="load" />
         </node>
     </group>

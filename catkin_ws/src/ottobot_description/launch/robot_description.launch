@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="use_kinect" default="false"/>
-  <arg name="use_lidar" default="false"/>
+  <arg name="enable_kinect" default="false"/>
+  <arg name="enable_lidar" default="false"/>
 
   <!-- send urdf to param server -->
   <param name="robot_description" command="
     $(find xacro)/xacro '$(find ottobot_description)/urdf/ottobot.urdf.xacro'
-    use_kinect:=$(arg use_kinect)
-    use_lidar:=$(arg use_lidar)
+    enable_kinect:=$(arg enable_kinect)
+    enable_lidar:=$(arg enable_lidar)
   " />
 
 </launch> 

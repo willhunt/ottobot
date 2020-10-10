@@ -4,7 +4,7 @@
 <!-- https://github.com/${parent}turtlebot/${parent}turtlebot/blob/hydro/${parent}turtlebot_description/urdf/sensors/kinect.urdf.xacro -->
 
 <robot name="sensor_kinect" xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <xacro:include filename="$(find ottobot_description)/urdf/kinect.gazebo.urdf.xacro"/>
+    <xacro:include filename="$(find ottobot_description)/urdf/kinect.gazebo.xacro"/>
 
     <xacro:macro name="sensor_kinect" params="parent">
         <joint name="camera_rgb_joint" type="fixed">
@@ -86,6 +86,6 @@
         </link>
 
         <!-- Kinect sensor for simulation defined in kinect.gazebo.urdf.xacro -->
-        <xacro:ottobot_sim_3dsensor />
+        <xacro:sim_gazebo_kinect />
     </xacro:macro>
 </robot>
