@@ -16,6 +16,12 @@
         <param name="baud" type="int" value="115200" />
     </node>
 
+    <!-- Sensors -->
+    <include file="$(find ottobot_sense)/launch/sense.launch"/>
+        <arg name="enable_lidar" default="$(arg enable_lidar)"/>
+        <arg name="enable_kinect" default="$(arg enable_kinect)"/>
+    </include>
+
     <!-- Robot onboard launch, includes control -->
     <include file="$(find ottobot_robot)/launch/robot.launch">
         <arg name="enable_goalnav" default="$(arg enable_goalnav)"/>

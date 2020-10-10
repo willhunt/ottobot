@@ -16,10 +16,6 @@
     <!-- Drive controller -->
     <include file="$(find ottobot_control)/launch/control.launch"/>
 
-    <!-- Sensors -->
-    <!-- <include file="$(find ottobot_sense)/launch/sense.launch"/> -->
-
-
     <!-- Send robot states to tf -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>
 
