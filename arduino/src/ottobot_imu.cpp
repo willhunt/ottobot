@@ -11,6 +11,8 @@ ImuPublisher::ImuPublisher(uint8_t imu_address) :
     imu_pub_timer_ = 0;
     imu_address_ = imu_address;
     pinMode(LED_BUILTIN, OUTPUT);
+    // Default message parameters
+    imu_msg_.header.frame_id = "imu";
 }
 
 void ImuPublisher::setup(ros::NodeHandle *nh) {

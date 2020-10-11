@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<robot name="sensor_imu" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:include filename="$(find ottobot_description)/urdf/bno055imu.gazebo.xacro"/>
+
+    <xacro:macro name="sensor_imu" params="parent">
+        <link name="imu"/>
+        <joint name="imu_joint" type="fixed">
+            <parent link="${parent}"/>
+            <child link="imu"/>
+            <origin xyz="-0.031 0.035 0.183" rpy="0 0 0"/>
+        </joint>
+
+        <!-- IMU sensor for simulation defined in bno055imu.gazebo.xacro -->
+        <xacro:sim_gazebo_bno055imu />
+    </xacro:macro>
+</robot>

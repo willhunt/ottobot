@@ -5,6 +5,7 @@
 
     <!-- SUB-COMPONENTS -->
     <xacro:include filename="$(find ottobot_description)/urdf/ottobot_wheel.urdf.xacro" />
+    <xacro:include filename="$(find ottobot_description)/urdf/bno055imu.urdf.xacro" />
     <xacro:arg name="enable_kinect" default="false" />
     <xacro:if value="$(arg enable_kinect)">
         <xacro:include filename="$(find ottobot_description)/urdf/kinect.urdf.xacro" />
@@ -106,12 +107,7 @@
 
 
     <!-- SENSORS - - - - - - - - -->
-    <link name="imu_link"/>
-    <joint name="imu_joint" type="fixed">
-        <parent link="${parent}"/>
-        <child link="imu_link"/>
-        <origin xyz="-0.031 0.035 0.183" rpy="0 0 0"/>
-    </joint>
+    <xacro:sensor_imu parent="chassis"></xacro:sensor_imu>
 
     <xacro:if value="$(arg enable_kinect)">
         <xacro:sensor_kinect parent="chassis"></xacro:sensor_kinect>

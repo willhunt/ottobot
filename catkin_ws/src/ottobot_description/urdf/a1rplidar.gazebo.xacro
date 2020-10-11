@@ -2,7 +2,7 @@
 <robot name="ottobot_gazebo" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <!-- RPLIDAR A1 Lidar -->
   <xacro:macro name="sim_gazebo_a1rplidar">
-    <gazebo reference="lidar_link">  
+    <gazebo reference="lidar">  
     <!-- http://sdformat.org/spec?ver=1.7&elem=sensor#sensor_lidar -->
         <sensor type="ray" name="head_a1rplidar_sensor">
             <pose>0 0 0 0 0 0</pose>
@@ -34,7 +34,7 @@
             </ray>
             <plugin name="gazebo_ros_head_a1rplidar_controller" filename="libgazebo_ros_laser.so">
                 <topicName>scan</topicName>
-                <frameName>lidar_link</frameName>
+                <frameName>lidar</frameName>
             </plugin>
         </sensor>
     </gazebo>

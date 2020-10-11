@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<robot name="ottobot_gazebo" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- RPLIDAR A1 Lidar -->
+  <xacro:macro name="sim_gazebo_bno055imu">
+    <!-- http://sdformat.org/spec?ver=1.7&elem=sensor#sensor_imu -->
+    <!-- http://gazebosim.org/tutorials?tut=ros_gzplugins#IMUsensor(GazeboRosImuSensor) -->
+    <!-- https://cdn-shop.adafruit.com/datasheets/BST_BNO055_DS000_12.pdf -->
+    <gazebo reference="imu">
+        <gravity>true</gravity>
+        <sensor name="imu_sensor" type="imu">
+            <always_on>true</always_on>
+            <update_rate>100</update_rate>
+            <visualize>true</visualize>
+            <topic>__default_topic__</topic>
+            <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+                <topicName>imu</topicName>
+                <bodyName>imu</bodyName>
+                <updateRateHZ>10.0</updateRateHZ>
+                <gaussianNoise>0.0</gaussianNoise>
+                <xyzOffset>0 0 0</xyzOffset>
+                <rpyOffset>0 0 0</rpyOffset>
+                <frameName>imu</frameName>
+                <initialOrientationAsReference>false</initialOrientationAsReference>
+            </plugin>
+        </sensor>
+    </gazebo>
+  </xacro:macro>
+</robot>
