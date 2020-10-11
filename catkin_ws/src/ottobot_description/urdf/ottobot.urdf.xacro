@@ -46,7 +46,7 @@
     <!-- A1 Lidar pose -->
     <xacro:property name="lidar_px" value="0.06" />
 	<xacro:property name="lidar_py" value="0" />
-	<xacro:property name="lidar_pz" value="${0.04 + chassis_height/2}" />
+	<xacro:property name="lidar_pz" value="${0.012 + chassis_height/2}" />
 	<xacro:property name="lidar_or" value="0" />
 	<xacro:property name="lidar_op" value="0" />
 	<xacro:property name="lidar_oy" value="${M_PI}" />
