@@ -4,12 +4,19 @@
     <xacro:include filename="$(find ottobot_description)/urdf/bno055imu.gazebo.xacro"/>
 
     <xacro:macro name="sensor_imu" params="parent">
-        <link name="imu"/>
         <joint name="imu_joint" type="fixed">
+            <origin xyz="${imu_px} ${imu_py} ${imu_pz}" rpy="${imu_or} ${imu_op} ${imu_oy}"/>
             <parent link="${parent}"/>
             <child link="imu"/>
-            <origin xyz="-0.031 0.035 0.183" rpy="0 0 0"/>
         </joint>
+        <link name="imu">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.027 0.02 0.0025" />
+                </geometry>
+            </visual>
+        </link>
 
         <!-- IMU sensor for simulation defined in bno055imu.gazebo.xacro -->
         <xacro:sim_gazebo_bno055imu />

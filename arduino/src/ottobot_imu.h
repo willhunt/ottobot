@@ -1,6 +1,8 @@
 #ifndef OTTOBOT_IMU_H
 #define OTTOBOT_IMU_H
 
+#define PUB_INTERVAL_IMU 100  // Delay between updates in milliseconds
+
 #include <Arduino.h>
 #include <ros.h>
 #include <sensor_msgs/Imu.h>

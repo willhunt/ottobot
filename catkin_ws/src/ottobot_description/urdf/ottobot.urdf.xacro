@@ -35,6 +35,14 @@
     <xacro:property name="wheel_left_offset" value="0.125" />
     <xacro:property name="wheel_vert_offset" value="${-chassis_gnd_clearance - chassis_height/2 + wheel_rad}" />
 
+    <!-- IMU pose -->
+    <xacro:property name="imu_px" value="-0.032" />
+	<xacro:property name="imu_py" value="-0.035" />
+	<xacro:property name="imu_pz" value="${0.039 + chassis_height/2}" />
+	<xacro:property name="imu_or" value="0" />
+	<xacro:property name="imu_op" value="0" />
+	<xacro:property name="imu_oy" value="${M_PI}" />
+
     <!-- Kinect pose -->
     <xacro:property name="cam_px" value="${chassis_length / 2}" />
 	<xacro:property name="cam_py" value="0" />

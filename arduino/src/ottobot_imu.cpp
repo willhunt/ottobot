@@ -63,8 +63,8 @@ void ImuPublisher::publish_imu() {
         // Publish messages
         imu_pub_.publish(&imu_msg_);
         
-        // Publish about every 2 seconds
-        imu_pub_timer_ = millis() + 2000;
+        // Publish at intervals
+        imu_pub_timer_ = millis() + PUB_INTERVAL_IMU;
     }
 }
 
