@@ -16,7 +16,7 @@
     <!-- Drive controller -->
     <include file="$(find ottobot_control)/launch/control.launch"/>
 
-    <!-- Send robot states to tf -->
+    <!-- Send robot states to tf, used for static transforms -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>
 
     <!-- Navigation -->

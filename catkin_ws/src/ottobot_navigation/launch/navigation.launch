@@ -14,7 +14,7 @@
         <node name="move_base" pkg="move_base" type="move_base" respawn="false" output="screen">
 
             <remap from="cmd_vel" to="/ottobot_diff_drive_controller/cmd_vel" />
-            <remap from="odom" to="/ottobot_diff_drive_controller/odom" />
+            <remap from="odom" to="/odometry/filtered" />
 
             <param name="base_global_planner" value="navfn/NavfnROS" />
             <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/>

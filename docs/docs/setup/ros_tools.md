@@ -14,6 +14,11 @@ $ rostopic info <topic-name>  // pub/subs
 $ rostopic echo <topic-name>  // See output
 ```
 
+## RQT
+```bash
+$ rqt
+```
+
 ## RQT Graph
 ```bash
 $ rosrun rqt_graph rqt_graph
