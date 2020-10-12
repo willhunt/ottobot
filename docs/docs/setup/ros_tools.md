@@ -14,6 +14,11 @@ $ rostopic info <topic-name>  // pub/subs
 $ rostopic echo <topic-name>  // See output
 ```
 
+## RQT Graph
+```bash
+$ rosrun rqt_graph rqt_graph
+```
+
 ## Nav Goal
 Useful command to cancel navigation goal
 ```bash

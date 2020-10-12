@@ -19,7 +19,7 @@ sensor_msgs::JointState joint_state_msg;
 unsigned long joint_state_pub_timer = 0;
 ros::Publisher joint_state_pub("hardware/joint_states", &joint_state_msg);
 // Joint state service server
-ros::ServiceServer<JointRequest, JointResponse> joint_state_service("/hardware/joint_update", &joint_state_servie_callback);
+ros::ServiceServer<JointRequest, JointResponse> joint_state_service("/hardware/joint_update", &joint_state_service_callback);
 // PID publisher
 ottobot_hardware::BasePidState pid_state_msg;
 unsigned long pid_state_pub_timer = 0;
@@ -282,7 +282,7 @@ void publish_joint_state() {
 /*
 Return wheel speed and position as service server
 */
-void joint_state_servie_callback(const JointRequest& request, JointResponse& response) {
+void joint_state_service_callback(const JointRequest& request, JointResponse& response) {
     float joint_positions[4] = {position_left, position_left, position_right, position_right};
     response.position = joint_positions;
 

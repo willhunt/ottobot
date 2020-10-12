@@ -4,18 +4,23 @@
 #include <ros/console.h>
 #include <joint_limits_interface/joint_limits_rosparam.h>
 
+#define USE_SUB_FOR_UPDATE true  // Use subscriber instead of service to update joint values
+
 OttobotHardwareInterface::OttobotHardwareInterface(ros::NodeHandle* nh) :
     nh_(nh)
 {
     // Setup joint interfaces
     init_joint_interfaces();
-    // Subscribe to wheel state from microcontroller
-    // wheel_state_subscriber_ = nh_->subscribe("/hardware/joint_states", 10, 
-    //         &OttobotHardwareInterface::wheel_state_callback, this);
+    if (USE_SUB_FOR_UPDATE) {
+        // Subscribe to wheel state from microcontroller
+        wheel_state_subscriber_ = nh_->subscribe("/hardware/joint_states", 10, 
+                &OttobotHardwareInterface::wheel_state_callback, this);
+    } else {
+        // Setup service client for sending requests to arduino
+        joint_service_client_ = nh_->serviceClient<ottobot_hardware::JointUpdate>("/hardware/joint_update");
+    }
     // Publish wheel state for microcontroller
-    wheel_state_publisher_ = nh_->advertise<ottobot_hardware::WheelCmd>("/hardware/cmd_joint_state", 1);
-    // Setup service client for sending requests to arduino
-    joint_service_client_ = nh_->serviceClient<ottobot_hardware::JointUpdate>("/hardware/joint_update");
+    wheel_state_publisher_ = nh_->advertise<ottobot_hardware::WheelCmd>("/hardware/cmd_joint_state", 1);  
 }
 
 void OttobotHardwareInterface::init_joint_interfaces() {
@@ -72,12 +77,18 @@ void OttobotHardwareInterface::write(ros::Duration elapsed_time) {
 
 /**
  * Request update from arduino on joint states
+ * Not working properly, possibly due to open issue: https://github.com/ros-drivers/rosserial/issues/408
+ * Use subscriber to update instead
 **/
 void OttobotHardwareInterface::read() {
-    ottobot_hardware::JointUpdate update_srv;
-    if (joint_service_client_.call(update_srv)) {
-        set_joint_values<ottobot_hardware::JointUpdate::Response>(update_srv.response);
+    if (USE_SUB_FOR_UPDATE) {
+        return;
     } else {
-        ROS_ERROR("Failed to call joint update service request");
-    } 
+        ottobot_hardware::JointUpdate update_srv;
+        if (joint_service_client_.call(update_srv)) {
+            set_joint_values<ottobot_hardware::JointUpdate::Response>(update_srv.response);
+        } else {
+            ROS_ERROR("Failed to call joint update service request");
+        } 
+    }
 }

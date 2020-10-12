@@ -10,7 +10,7 @@ void control_loop(OttobotHardwareInterface& hw_interface, controller_manager::Co
     ros::Time this_time = ros::Time::now();
     ros::Duration elapsed_time = this_time - last_time;
     // Process control loop
-    // hw_interface.read();
+    hw_interface.read();
     cm.update(ros::Time::now(), elapsed_time);
     hw_interface.write(elapsed_time);
 

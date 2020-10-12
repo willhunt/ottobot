@@ -11,7 +11,7 @@ ottobot_diff_drive_controller:
   twist_covariance_diagonal: [0.001, 0.001, 0.001, 1000000.0, 1000000.0, 0.03]
   cmd_vel_timeout: 0.25  # Default: 0.5 s
 
-  odom_frame_id: "/odom"
+  odom_frame_id: odom
   base_frame_id: robot_footprint
   # Don't publish here, using sensor fusion with IMU to publish instead
   enable_odom_tf: false  # Required for transform to odom frame (to appear in rviz fixed frame)
