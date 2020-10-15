@@ -1,0 +1,11 @@
+<launch>
+    <!-- Files to launch on static workstation for interfacing and monitoring robot -->
+    <arg name="plot_on" default="true"/>
+
+    <!-- Launch rqt -->
+    <group if="$(eval plot_on)">
+        <node name="pid_plot_node" pkg="rqt_multiplot" type="rqt_multiplot" respawn="false" 
+            args="--multiplot-config $(find ottobot_hardware)/rqt/rqt_multiplot_pid_tuning.xml"/>
+    </group>
+
+</launch>
