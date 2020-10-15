@@ -30,7 +30,7 @@
 
     <xacro:property name="wheel_mass" value="0.186" />
     <xacro:property name="wheel_width" value="0.062" />
-    <xacro:property name="wheel_rad" value="0.063" />
+    <xacro:property name="wheel_rad" value="0.064" />
     <xacro:property name="wheel_forward_offset" value="0.075" />
     <xacro:property name="wheel_left_offset" value="0.125" />
     <xacro:property name="wheel_vert_offset" value="${-chassis_gnd_clearance - chassis_height/2 + wheel_rad}" />
