@@ -13,6 +13,19 @@ ImuPublisher::ImuPublisher(uint8_t imu_address) :
     pinMode(LED_BUILTIN, OUTPUT);
     // Default message parameters
     imu_msg_.header.frame_id = "imu";
+
+    // No measured variance for orientation but put something in
+    imu_msg_.orientation_covariance[0] = 0.00001;
+    imu_msg_.orientation_covariance[4] = 0.00001;
+    imu_msg_.orientation_covariance[8] = 0.00001;
+    // Measured values
+    imu_msg_.linear_acceleration_covariance[0] = 0.00007;
+    imu_msg_.linear_acceleration_covariance[4] = 0.00008;
+    imu_msg_.linear_acceleration_covariance[8] = 0.0052;
+    // Measured values
+    imu_msg_.angular_velocity_covariance[0] = 0.0101;
+    imu_msg_.angular_velocity_covariance[4] = 0.0196;
+    imu_msg_.angular_velocity_covariance[8] = 0.0052;
 }
 
 void ImuPublisher::setup(ros::NodeHandle *nh) {
@@ -25,7 +38,7 @@ void ImuPublisher::setup(ros::NodeHandle *nh) {
     while(!imu_sensor_.begin()) {
         // If code is stuck here...
         //  - Maybe ADR pin is not pulled high for M0 Pro?
-        //  - Maybe woring is wrong?
+        //  - Maybe wiring is wrong?
         digitalWrite(LED_BUILTIN, HIGH);
         delay(200);
         digitalWrite(LED_BUILTIN, LOW);

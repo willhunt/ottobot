@@ -1,0 +1,5 @@
+samples: 5000  # Number of samples to collect
+topic_name: imu  # Topic name to subscribe to
+topic_type: sensor_msgs/Imu  # Message Type
+variable_names: ["orientation", "angular_velocity", "linear_acceleration"]
+variable_types: ["geometry_msgs/Quaternion", "geometry_msgs/Vector3", "geometry_msgs/Vector3"]

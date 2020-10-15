@@ -1,0 +1,5 @@
+samples: 100  # Number of samples to collect
+topic_name: temperature  # Topic name to subscribe to
+topic_type: sensor_msgs/Temperature  # Message Type
+variable_names: ["temperature"]
+variable_types: ["std_msgs/Float64"]

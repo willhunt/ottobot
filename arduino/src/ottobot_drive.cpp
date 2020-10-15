@@ -1,6 +1,8 @@
 #include "ottobot_drive.h"
 #include <ottobot_hardware/BasePidState.h>
 
+#define LIMIT_POSITION_TO_2PI false
+
 ros::NodeHandle *nh_;
 
 char* joint_names[4] = {
@@ -126,7 +128,7 @@ void update_joint_state() {
         // Filter speed
         moving_average_filter(ma_speed_left_sum, ma_speed_left_readings, speed_left, speed_left_new, ma_speed_left_index);
         //Position
-        position_left = constrain_angle(position_left + rotations_left);
+        position_left = constrain_angle(position_left + rotations_left * 2 * M_PI);
 
         // Right
         double rotations_right = (double)ticks_right / (double)ENC_COUNT_PER_REV;
@@ -134,7 +136,7 @@ void update_joint_state() {
         // Filter speed
         moving_average_filter(ma_speed_right_sum, ma_speed_right_readings, speed_right, speed_right_new, ma_speed_right_index);
         // Position
-        position_right = constrain_angle(position_right + rotations_right);
+        position_right = constrain_angle(position_right + rotations_right * 2 * M_PI);
 
         // Reset variables
         time_last_joint_udpate = time_current;
@@ -369,9 +371,11 @@ void set_drive_gains(double kp, double ki, double kd) {
 Constrain angle to 0 -> 2pi
 */
 double constrain_angle(double theta) {
-    theta = fmod(theta, TWO_PI);
-    if (theta < 0)
-        theta += TWO_PI;
+    if (LIMIT_POSITION_TO_2PI){
+        theta = fmod(theta, TWO_PI);
+        if (theta < 0)
+            theta += TWO_PI;
+    }    
     return theta;
 }
 

@@ -1,0 +1,17 @@
+samples: 10  # Number of samples to collect
+
+# topic_name: ottobot_diff_drive_controller/odom  # Topic name to subscribe to
+# topic_type: nav_msgs/Odometry  # Message Type
+# variable_names: ["pose/pose", "twist/twist"]
+# variable_types: ["geometry_msgs/Pose", "geometry_msgs/Twist"]
+
+# topic_name: ottobot_diff_drive_controller/odom/twist  # Topic name to subscribe to
+# topic_type: geometry_msgs/TwistWithCovariance  # Message Type
+# variable_names: ["twist"]
+# variable_types: ["geometry_msgs/Twist"]
+
+
+topic_name: ottobot_diff_drive_controller/odom  # Topic name to subscribe to
+topic_type: nav_msgs/Odometry  # Message Type
+variable_names: ["pose/pose/position", "pose/pose/orientation"]
+variable_types: ["geometry_msgs/Point", "geometry_msgs/Quaternion"]

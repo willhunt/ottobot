@@ -50,7 +50,7 @@ double constrain_angle(double theta);
 void drive_motors(double output_left, double output_right);
 typedef ottobot_hardware::JointUpdate::Request JointRequest;
 typedef ottobot_hardware::JointUpdate::Response JointResponse;
-void joint_state_servie_callback(const JointRequest& request, JointResponse& response);
+void joint_state_service_callback(const JointRequest& request, JointResponse& response);
 void moving_average_filter(double& sum, double* readings, double& speed, double& sensor_speed, int& index);
 void lag_filter(double& speed, double& sensor_speed);
 
