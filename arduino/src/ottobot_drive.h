@@ -26,7 +26,7 @@
 #define SPEED_FILTER_VAL 0.8
 #define MA_FILTER_WINDOW_SIZE 10
 
-#define LIMIT_DUTY_MIN 25
+#define LIMIT_DUTY_MIN 0
 #define LIMIT_DUTY_MAX 255
 
 #define MODE_PID 0

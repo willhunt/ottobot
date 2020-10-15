@@ -29,8 +29,8 @@ ros::Publisher pid_state_pub("hardware/pid_state", &pid_state_msg);
 // Mode
 char mode = MODE_DUTY;  // 0=PID, 1=Throttle/duty
 // PID
-double kp = 5;
-double ki = 25;
+double kp = 1.5;
+double ki = 15.0;
 double kd = 0;
 double target_speed_left = 0;  // rad/s
 double target_speed_right = 0;  // rad/s
@@ -91,6 +91,10 @@ void drive_controller_setup(ros::NodeHandle *nh) {
     attachInterrupt(digitalPinToInterrupt(PIN_ENCODER_LEFT_A), update_wheel_tick_left_falling, FALLING);
     attachInterrupt(digitalPinToInterrupt(PIN_ENCODER_RIGHT_A), update_wheel_tick_right_rising, RISING);
     attachInterrupt(digitalPinToInterrupt(PIN_ENCODER_RIGHT_A), update_wheel_tick_right_falling, FALLING);
+
+    // PID
+    pid_left.SetSampleTime(UPDATE_INTERVAL_JOINT_STATE);
+    pid_right.SetSampleTime(UPDATE_INTERVAL_JOINT_STATE);
 
     // Message details
     joint_state_msg.header.frame_id = "robot_footprint";

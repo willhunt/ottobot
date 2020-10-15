@@ -86,11 +86,11 @@
                                         <relative_minimum>-1000</relative_minimum>
                                         <type>0</type>
                                     </scale>
-                                    <topic>/hardware/pid_left_state</topic>
-                                    <type>control_msgs/PidState</type>
+                                    <topic>/hardware/pid_state</topic>
+                                    <type>ottobot_hardware/BasePidState</type>
                                 </x_axis>
                                 <y_axis>
-                                    <field>error</field>
+                                    <field>error/0</field>
                                     <field_type>0</field_type>
                                     <scale>
                                         <absolute_maximum>1000</absolute_maximum>
@@ -99,8 +99,8 @@
                                         <relative_minimum>-1000</relative_minimum>
                                         <type>0</type>
                                     </scale>
-                                    <topic>/hardware/pid_left_state</topic>
-                                    <type>control_msgs/PidState</type>
+                                    <topic>/hardware/pid_state</topic>
+                                    <type>ottobot_hardware/BasePidState</type>
                                 </y_axis>
                             </axes>
                             <color>
@@ -162,11 +162,11 @@
                                         <relative_minimum>-1000</relative_minimum>
                                         <type>0</type>
                                     </scale>
-                                    <topic>/hardware/pid_left_state</topic>
-                                    <type>control_msgs/PidState</type>
+                                    <topic>/hardware/pid_state</topic>
+                                    <type>ottobot_hardware/BasePidState</type>
                                 </x_axis>
                                 <y_axis>
-                                    <field>output</field>
+                                    <field>output/0</field>
                                     <field_type>0</field_type>
                                     <scale>
                                         <absolute_maximum>1000</absolute_maximum>
@@ -175,12 +175,12 @@
                                         <relative_minimum>-1000</relative_minimum>
                                         <type>0</type>
                                     </scale>
-                                    <topic>/hardware/pid_left_state</topic>
-                                    <type>control_msgs/PidState</type>
+                                    <topic>/hardware/pid_state</topic>
+                                    <type>ottobot_hardware/BasePidState</type>
                                 </y_axis>
                             </axes>
                             <color>
-                                <custom_color>#aa00ff</custom_color>
+                                <custom_color>#ff0000</custom_color>
                                 <type>1</type>
                             </color>
                             <data>
@@ -199,7 +199,7 @@
                                 <type>0</type>
                             </style>
                             <subscriber_queue_size>100</subscriber_queue_size>
-                            <title>Output</title>
+                            <title>Output Left</title>
                         </curve_0>
                     </curves>
                     <legend>
