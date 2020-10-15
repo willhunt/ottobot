@@ -93,7 +93,7 @@ $ rostopic pub --once /hardware/cmd_joint_state ottobot_hardware/WheelCmd '{mode
 
 Control via PID
 ```bash
-$ rostopic pub --once /motor_pid_gains ottobot_hardware/PidSettings '{kp: 10, ki: 0, kd: 0}'  # Set gains
+$ rostopic pub --once /hardware/motor_pid_gains ottobot_hardware/PidSettings '{kp: 10, ki: 0, kd: 0}'  # Set gains
 $ rostopic echo -n 1 /hardware/pid_state # Check gains are set
 $ rostopic pub --once /hardware/cmd_joint_state ottobot_hardware/WheelCmd '{mode: 0, angular_velocity_left: 5, angular_velocity_right: 0}'
 ```

@@ -1,0 +1,9 @@
+<launch>
+
+    <!-- Arduino -->
+    <node name="rosserial_node" pkg="rosserial_python" type="serial_node.py" >
+        <param name="port" type="string" value="/dev/ttyACM0" />
+        <param name="baud" type="int" value="115200" />
+    </node>
+
+</launch>
