@@ -1,0 +1,15 @@
+imu_initial_offsets:
+  accel_offset_x: -40  # x acceleration offset
+  accel_offset_y: 10  # y acceleration offset
+  accel_offset_z: -19  # z acceleration offset
+
+  mag_offset_x: -68  # x magnetometer offset
+  mag_offset_y: 337  # y magnetometer offset
+  mag_offset_z: 593  # z magnetometer offset
+
+  gyro_offset_x: 0  # x gyroscrope offset
+  gyro_offset_y: -2  # y gyroscrope offset
+  gyro_offset_z: -1  # z gyroscrope offset
+
+  accel_radius: 1000  # acceleration radius
+  mag_radius: 723  # magnetometer radius

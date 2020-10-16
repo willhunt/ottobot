@@ -58,6 +58,6 @@ void BatteryPublisher::publish_state() {
         state_pub_.publish(&state_msg_);
         
         // Publish about every 2 seconds
-        state_pub_timer_ = millis() + 2000;
+        state_pub_timer_ = millis() + 5000;
     }
 }

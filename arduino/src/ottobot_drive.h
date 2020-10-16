@@ -21,7 +21,7 @@
 #define PIN_ENCODER_RIGHT_B 10  // White M2
 
 #define PUB_INTERVAL_JOINT_STATE 20  // [ms]
-#define PUB_INTERVAL_PID_STATE 20  // [ms]
+#define PUB_INTERVAL_PID_STATE 100  // [ms]
 #define UPDATE_INTERVAL_JOINT_STATE 20  // [ms]
 #define SPEED_FILTER_VAL 0.8
 #define MA_FILTER_WINDOW_SIZE 10

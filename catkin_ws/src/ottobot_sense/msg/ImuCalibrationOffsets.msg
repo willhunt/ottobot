@@ -1,0 +1,5 @@
+ottobot_sense/CalibrationOffset accelerometer
+ottobot_sense/CalibrationOffset magnetometer
+ottobot_sense/CalibrationOffset gyroscope
+int16 accelerometer_radius
+int16 magnetometer_radius

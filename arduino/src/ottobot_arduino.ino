@@ -47,6 +47,7 @@ void loop(void)
 {
     // Publish IMU main data
     imu_publisher.publish_imu();
+    imu_publisher.publish_calibration();
     // Publish IMU temperature
     imu_publisher.publish_temp();
     // Publish battery state (voltage only atm)
