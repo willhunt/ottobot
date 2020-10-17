@@ -1,9 +1,7 @@
 #include "ottobot_drive.h"
 #include <ottobot_hardware/BasePidState.h>
 
-#define LIMIT_POSITION_TO_2PI false
-
-ros::NodeHandle *nh_;
+ros::NodeHandle* nh_drive_;
 
 char* joint_names[4] = {
     "front_left_wheel_joint",
@@ -59,16 +57,16 @@ double ma_speed_right_sum = 0;
 int ma_speed_right_index = 0;
 
 void drive_controller_setup(ros::NodeHandle *nh) {
-    nh_ = nh;
+    nh_drive_ = nh;
     // Advertise publishers
-    nh_->advertise(joint_state_pub);
-    nh_->advertise(pid_state_pub);
+    nh_drive_->advertise(joint_state_pub);
+    nh_drive_->advertise(pid_state_pub);
     // Subscribe to cmd topic
-    nh_->subscribe(wheel_cmd_sub);
+    nh_drive_->subscribe(wheel_cmd_sub);
     // Subscribe to pid settings topic
-    nh_->subscribe(pid_settings_sub);
+    nh_drive_->subscribe(pid_settings_sub);
     // Advertise ServiceServer
-    nh_->advertiseService(joint_state_service);
+    nh_drive_->advertiseService(joint_state_service);
 
     // Setup wheel PID controllers
     pid_left.SetOutputLimits(-255, 255);
@@ -266,7 +264,7 @@ Publish wheel speed and position
 */
 void publish_joint_state() {
     if (millis() > joint_state_pub_timer) {
-        joint_state_msg.header.stamp = nh_->now();
+        joint_state_msg.header.stamp = nh_drive_->now();
 
         float joint_positions[4] = {position_left, position_left, position_right, position_right};
         joint_state_msg.position = joint_positions;
@@ -289,14 +287,20 @@ void publish_joint_state() {
 Return wheel speed and position as service server
 */
 void joint_state_service_callback(const JointRequest& request, JointResponse& response) {
+    response.name_length = 4;
+    response.name = joint_names;
+
     float joint_positions[4] = {position_left, position_left, position_right, position_right};
+    response.position_length = 4;
     response.position = joint_positions;
 
     float joint_speeds[4] = {speed_left, speed_left, speed_right, speed_right};
+    response.velocity_length = 4;
     response.velocity = joint_speeds;
 
     // Populate effort with zeros as unknown.
     float joint_efforts[4] = {0, 0, 0, 0};
+    response.effort_length;
     response.effort = joint_efforts;
 }
 
@@ -355,7 +359,7 @@ void publish_pid_state() {
         pid_state_msg.p_term = pid_left.GetKp();
         pid_state_msg.i_term = pid_left.GetKi();
         pid_state_msg.d_term = pid_left.GetKd();
-        pid_state_msg.header.stamp = nh_->now();
+        pid_state_msg.header.stamp = nh_drive_->now();
 
         pid_state_pub.publish(&pid_state_msg);
         // Publish about every 0.1 seconds

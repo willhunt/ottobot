@@ -9,21 +9,21 @@ class ImuCalibrationCommander:
 
     def load_offsets(self):
          # Get parameters from provate namespace
-        offsets = rospy.get_param('~imu_initial_offsets')
+        offsets = rospy.get_param('~initial_offsets')
         # Accelerometer
-        self.request.offsets.accelerometer.x = offsets.accel_offset_x
-        self.request.offsets.accelerometer.y = offsets.accel_offset_y
-        self.request.offsets.accelerometer.z = offsets.accel_offset_z
-        self.request.offsets.accelerometer_radius = offsets.accel_radius
+        self.request.offsets.accelerometer.x = offsets["accel_offset_x"]
+        self.request.offsets.accelerometer.y = offsets["accel_offset_y"]
+        self.request.offsets.accelerometer.z = offsets["accel_offset_z"]
+        self.request.offsets.accelerometer_radius = offsets["accel_radius"]
         # Gyroscope
-        self.request.offsets.gyroscope.x = offsets.gyro_offset_x
-        self.request.offsets.gyroscope.y = offsets.gyro_offset_y
-        self.request.offsets.gyroscope.z = offsets.gyro_offset_z
+        self.request.offsets.gyroscope.x = offsets["gyro_offset_x"]
+        self.request.offsets.gyroscope.y = offsets["gyro_offset_y"]
+        self.request.offsets.gyroscope.z = offsets["gyro_offset_z"]
         # Magnetometer
-        self.request.offsets.magnetometer.x = offsets.mag_offset_x
-        self.request.offsets.magnetometer.y = offsets.mag_offset_y
-        self.request.offsets.magnetometer.z = offsets.mag_offset_z
-        self.request.offsets.magnetometer_radius = offsets.mag_radius
+        self.request.offsets.magnetometer.x = offsets["mag_offset_x"]
+        self.request.offsets.magnetometer.y = offsets["mag_offset_y"]
+        self.request.offsets.magnetometer.z = offsets["mag_offset_z"]
+        self.request.offsets.magnetometer_radius = offsets["mag_radius"]
         
     def update_client(self):
         # Wait for service to be advertised
@@ -32,6 +32,10 @@ class ImuCalibrationCommander:
         try:
             update_call = rospy.ServiceProxy("set_imu_offsets", UpdateImuOffsets)
             imu_response = update_call(self.request)
+            if imu_response:
+                rospy.loginfo("Imu calibration offsets set")
+            else:
+                rospy.logerr("Imu calibration offsets failed to set")
             return imu_response  # True/False
         except rospy.ServiceException as e:
             rospy.logerr("Imu offset update service call failed: {}".format(e))

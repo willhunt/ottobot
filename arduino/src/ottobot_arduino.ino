@@ -25,8 +25,6 @@ Notes: Requires modification to rosserial package to work with M0 Pro Arduino bo
 
 // Set up the ros node and publisher
 ros::NodeHandle nh;
-// Address 0x29 for Arduino M0 Pro, usually 0x28 (e.g. Uno)
-ImuPublisher imu_publisher(0x29);
 // Setup battery monitor (pin, Vmax)
 BatteryPublisher battery_publisher(BATTERY_VOLTAGE_PIN, 10.352, ADC_RESOLUTION_BITS);
 
@@ -35,8 +33,8 @@ void setup(void)
     // ROS node setup
     nh.getHardware()->setBaud(115200);
     nh.initNode();
-    // IMU setup
-    imu_publisher.setup(&nh);
+    // IMU setup - Address 0x29 for Arduino M0 Pro, usually 0x28 (e.g. Uno)
+    imu_setup(&nh, 0x29);
     // Battery monitor setup
     battery_publisher.setup(&nh);
     // Motor controller setup
@@ -46,10 +44,10 @@ void setup(void)
 void loop(void) 
 {
     // Publish IMU main data
-    imu_publisher.publish_imu();
-    imu_publisher.publish_calibration();
+    publish_imu();
+    publish_imu_calibration();
     // Publish IMU temperature
-    imu_publisher.publish_temp();
+    publish_imu_temp();
     // Publish battery state (voltage only atm)
     battery_publisher.publish_state();
     // Update PID and output motor commands

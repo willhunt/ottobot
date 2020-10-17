@@ -97,3 +97,10 @@ $ rostopic pub --once /hardware/motor_pid_gains ottobot_hardware/PidSettings '{k
 $ rostopic echo -n 1 /hardware/pid_state # Check gains are set
 $ rostopic pub --once /hardware/cmd_joint_state ottobot_hardware/WheelCmd '{mode: 0, angular_velocity_left: 5, angular_velocity_right: 0}'
 ```
+
+### SerialClient Issue
+There is an issue with ROS Melodic and rosserial_arduino ([github issue](https://github.com/ros-drivers/rosserial/pull/414)) where when making a rospy service call to rosserial_arduino the following error occurs:
+
+`"ERROR: service [/topic] responded with an error: service cannot process request: service handler returned None"`
+
+There is no permanent fix as of the time of writing with the temporary solution given as reverting the SerialClient.py file to the kinetic version. A script, `revert_serialclient_to_kinetic.sh`, can be found in the setup folder to complete this action and it is also automated in the `setup_raspi.sh` file.

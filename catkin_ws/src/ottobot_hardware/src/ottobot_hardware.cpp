@@ -4,7 +4,7 @@
 #include <ros/console.h>
 #include <joint_limits_interface/joint_limits_rosparam.h>
 
-#define USE_SUB_FOR_UPDATE true  // Use subscriber instead of service to update joint values
+#define USE_SUB_FOR_UPDATE false  // Use subscriber instead of service to update joint values
 
 OttobotHardwareInterface::OttobotHardwareInterface(ros::NodeHandle* nh) :
     nh_(nh)

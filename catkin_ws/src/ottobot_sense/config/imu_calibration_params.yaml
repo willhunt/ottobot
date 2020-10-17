@@ -1,4 +1,4 @@
-imu_initial_offsets:
+initial_offsets:
   accel_offset_x: -40  # x acceleration offset
   accel_offset_y: 10  # y acceleration offset
   accel_offset_z: -19  # z acceleration offset

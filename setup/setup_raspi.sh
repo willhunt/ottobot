@@ -60,4 +60,12 @@ echo "export ROS_HOSTNAME=ottobot" >> ~/.bashrc
 printf "Setting up serial...  "
 sudo usermod -a -G dialout otto
 
+# Revert serial client
+printf "Reverting SerialClient.py to kinetic to work with rosserial_arduino...  "
+sudo mv kineticSerialClient.py /opt/ros/melodic/lib/python2.7/dist-packages/rosserial_python/kineticSerialClient.py
+cd /opt/ros/melodic/lib/python2.7/dist-packages/rosserial_python
+sudo mv SerialClient.pyc melodicSerialClient.pyc
+sudo mv SerialClient.py melodicSerialClient.py
+sudo mv kineticSerialClientc.py SerialClient.py
+
 printf "Finished. Restart not (sudo reboot)."

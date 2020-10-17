@@ -6,4 +6,10 @@
         <param name="baud" type="int" value="115200" />
     </node>
 
+    <!-- Sensors -->
+    <include file="$(find ottobot_sense)/launch/sense.launch">
+        <arg name="enable_lidar" default="false"/>
+        <arg name="enable_kinect" default="false"/>
+    </include>
+
 </launch>

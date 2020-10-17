@@ -20,7 +20,7 @@
 #define PIN_ENCODER_RIGHT_A 9  // Yellow M2
 #define PIN_ENCODER_RIGHT_B 10  // White M2
 
-#define PUB_INTERVAL_JOINT_STATE 20  // [ms]
+#define PUB_INTERVAL_JOINT_STATE 100  // [ms]
 #define PUB_INTERVAL_PID_STATE 100  // [ms]
 #define UPDATE_INTERVAL_JOINT_STATE 20  // [ms]
 #define SPEED_FILTER_VAL 0.8
@@ -31,6 +31,8 @@
 
 #define MODE_PID 0
 #define MODE_DUTY 1
+
+#define LIMIT_POSITION_TO_2PI false
 
 void drive_controller_setup(ros::NodeHandle* nh);
 void control_cmd_callback(const ottobot_hardware::WheelCmd& cmd_msg);
