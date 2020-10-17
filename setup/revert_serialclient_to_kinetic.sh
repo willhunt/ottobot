@@ -8,5 +8,5 @@ printf "Renaming old files just in case they are needed...  "
 sudo mv SerialClient.pyc melodicSerialClient.pyc
 sudo mv SerialClient.py melodicSerialClient.py
 printf "Renaming new file to SerialClient.py...  "
-sudo mv kineticSerialClientc.py SerialClient.py
+sudo mv kineticSerialClient.py SerialClient.py
 printf "Done."

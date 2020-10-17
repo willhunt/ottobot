@@ -187,5 +187,8 @@ void imu_offsets_callback(const CalRequest& req, CalResponse& res) {
     calibration_offsets.mag_offset_y = req.offsets.magnetometer.y;
     calibration_offsets.mag_offset_z = req.offsets.magnetometer.z;
     calibration_offsets.mag_radius = req.offsets.magnetometer_radius;
+
+    imu_sensor.setSensorOffsets(calibration_offsets);
+
     res.success = true;
 }
