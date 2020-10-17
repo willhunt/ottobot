@@ -18,7 +18,9 @@ OttobotHardwareInterface::OttobotHardwareInterface(ros::NodeHandle* nh) :
                 &OttobotHardwareInterface::wheel_state_callback, this);
     } else {
         // Wait for joint state service server to start
-        ros::service::waitForService("/hardware/joint_update", 2000);
+        if (!ros::service::waitForService("/hardware/joint_update", 3000)) {
+            ROS_INFO("Joint update service has not started");
+        }
         // Setup service client for sending requests to arduino
         joint_service_client_ = nh_->serviceClient<ottobot_hardware::JointUpdate>("/hardware/joint_update");
     }
