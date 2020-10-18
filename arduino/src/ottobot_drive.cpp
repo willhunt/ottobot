@@ -37,11 +37,9 @@ double output_right = 0;  // pwm
 double position_left = 0;  // rad
 double position_right = 0;  // rad
 // Assume front and back wheel speeds/positions are the same
-// double positions[4] = {&position_left, &position_left, &position_right, &position_right};
 double speed_left = 0;  // rad/s
 double speed_right = 0;  // rad/s
 // Assume front and back wheel speeds/positions are the same
-// double speeds[4] = {&speed_left, &speed_left, &speed_right, &speed_right};
 PID pid_left(&speed_left, &output_left, &target_speed_left, kp, ki, kd, DIRECT);
 PID pid_right(&speed_right, &output_right, &target_speed_right, kp, ki, kd, DIRECT);
 // Wheel encoders
@@ -95,13 +93,15 @@ void drive_controller_setup(ros::NodeHandle *nh) {
     pid_right.SetSampleTime(UPDATE_INTERVAL_JOINT_STATE);
 
     // Message details - currently done in template function
-    // joint_state_msg.header.frame_id = "robot_footprint";
-    // joint_state_msg.name_length = 4;
-    // joint_state_msg.name = joint_names;
-    // joint_state_msg.position_length = 4;
-    // joint_state_msg.velocity_length = 4;
-    pid_state_msg.header.frame_id = "robot_footprint";
+    joint_state_msg.header.frame_id = "robot_footprint";
+    joint_state_msg.name_length = 4;
+    joint_state_msg.name = joint_names;
+    joint_state_msg.position_length = 4;
+    joint_state_msg.velocity_length = 4;
+    float joint_efforts[4] = {0, 0, 0, 0};
+    joint_state_msg.effort = joint_efforts;  // Populate effort with zeros as unknown.
     // PID state
+    pid_state_msg.header.frame_id = "robot_footprint";
     pid_state_msg.output_length = 2;
     pid_state_msg.target_length = 2;
     pid_state_msg.error_length = 2;
@@ -257,6 +257,25 @@ void drive_motors(double output_left, double output_right) {
 }
 
 /*
+Publish wheel speed and position
+*/
+void publish_joint_state() {
+    if (millis() > joint_state_pub_timer) {
+        // populate_joint_msg(joint_state_msg);
+
+        joint_state_msg.header.stamp = nh_drive_->now();
+        float joint_positions[4] = {position_left, position_left, position_right, position_right};
+        joint_state_msg.position = joint_positions;
+        float joint_speeds[4] = {speed_left, speed_left, speed_right, speed_right};
+        joint_state_msg.velocity = joint_speeds;
+
+        joint_state_pub.publish(&joint_state_msg);
+        // Publish at interval
+        joint_state_pub_timer = millis() + PUB_INTERVAL_JOINT_STATE;
+    }
+}
+
+/*
     Populate joint values of message type sensor_msgs/JointState
     Can be from message or service response types
 */
@@ -269,29 +288,12 @@ void populate_joint_msg(sensor_msgs::JointState& input) {
     input.velocity_length = 4;
     input.effort_length = 4;
 
-    for (int i = 0; i < 4; i++) {
-        input.position[i] = (i < 2) ? (float)position_left : (float)position_right;
-        if (input.position[i] < EPSILON) {  // Fix zero issues, possibly due to float conversion....
-            input.position[i] = 0.0;
-        }
-        input.velocity[i] = (i < 2) ? (float)speed_left : (float)speed_right;
-        if (input.velocity[i] < EPSILON) {
-            input.velocity[i] = 0.0;
-        }
-        input.effort[i] = 0.0;  // Populate effort with zeros as unknown.
-    }
-}
-
-/*
-Publish wheel speed and position
-*/
-void publish_joint_state() {
-    if (millis() > joint_state_pub_timer) {
-        populate_joint_msg(joint_state_msg);
-        joint_state_pub.publish(&joint_state_msg);
-        // Publish at interval
-        joint_state_pub_timer = millis() + PUB_INTERVAL_JOINT_STATE;
-    }
+    float joint_positions[4] = {position_left, position_left, position_right, position_right};
+    input.position = joint_positions;
+    float joint_speeds[4] = {speed_left, speed_left, speed_right, speed_right};
+    input.velocity = joint_speeds;
+    float joint_efforts[4] = {0, 0, 0, 0};
+    input.effort = joint_efforts;
 }
 
 /*
@@ -342,12 +344,12 @@ void publish_pid_state() {
     if (millis() > pid_state_pub_timer) {
         pid_state_msg.header.stamp = nh_drive_->now();
         // Assume front and back wheel speeds/positions are the same
-        pid_state_msg.error[0] = target_speed_left - speed_left;
-        pid_state_msg.error[1] = target_speed_right - speed_right;
-        pid_state_msg.target[0] = target_speed_left;
-        pid_state_msg.target[1] = target_speed_right;
-        pid_state_msg.output[0] = output_left;
-        pid_state_msg.output[1] = output_right;
+        float errors[2] = {target_speed_left - speed_left, target_speed_right - speed_right};
+        pid_state_msg.error = errors;
+        float target_speeds[2] = {target_speed_left, target_speed_right};
+        pid_state_msg.target = target_speeds;
+        float outputs[2] = {output_left, output_right};
+        pid_state_msg.output = outputs;
         char* pid_modes[2] = {
             (pid_left.GetMode() == MANUAL) ? (char*)"Manual" : (char*)"Auto",
             (pid_right.GetMode() == MANUAL) ? (char*)"Manual" : (char*)"Auto"
@@ -357,7 +359,7 @@ void publish_pid_state() {
         pid_state_msg.p_term = pid_left.GetKp();
         pid_state_msg.i_term = pid_left.GetKi();
         pid_state_msg.d_term = pid_left.GetKd();
-        
+
         pid_state_pub.publish(&pid_state_msg);
         // Publish about every 0.1 seconds
         pid_state_pub_timer = millis() + PUB_INTERVAL_PID_STATE;
