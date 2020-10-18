@@ -4,7 +4,7 @@
 
     <node name="sensor_variance_calculator" pkg="variance_calculator" type="sensor_variance.py" 
         launch-prefix="$(eval 'gnome-terminal -e python -m pdb' if debug else '')">
-        <rosparam file="$(find variance_calculator)/config/odom_params.yaml" command="load" />
+        <rosparam file="$(find variance_calculator)/config/imu_params.yaml" command="load" />
     </node>
 
 </launch>

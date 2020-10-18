@@ -34,6 +34,8 @@
 
 #define LIMIT_POSITION_TO_2PI false
 
+#define EPSILON 0.0000000000001
+
 void drive_controller_setup(ros::NodeHandle* nh);
 void control_cmd_callback(const ottobot_hardware::WheelCmd& cmd_msg);
 void update_tick_left();

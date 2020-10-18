@@ -271,7 +271,13 @@ void populate_joint_msg(sensor_msgs::JointState& input) {
 
     for (int i = 0; i < 4; i++) {
         input.position[i] = (i < 2) ? (float)position_left : (float)position_right;
+        if (input.position[i] < EPSILON) {  // Fix zero issues, possibly due to float conversion....
+            input.position[i] = 0.0;
+        }
         input.velocity[i] = (i < 2) ? (float)speed_left : (float)speed_right;
+        if (input.velocity[i] < EPSILON) {
+            input.velocity[i] = 0.0;
+        }
         input.effort[i] = 0.0;  // Populate effort with zeros as unknown.
     }
 }

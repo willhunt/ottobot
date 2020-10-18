@@ -1,6 +1,7 @@
 <launch>
     <arg name="enable_kinect" default="false"/>
     <arg name="enable_lidar" default="false"/>
+    <arg name="enable_initalimuoffset" default="false"/>
 
     <!-- KINECT-->
     <group if="$(arg enable_kinect)">  
@@ -21,7 +22,9 @@
     </group>
 
     <!-- Set initial imu calibration offsets -->
-    <!-- <node name="imu_calibration_commander" pkg="ottobot_sense" type="imu_calibration_commander.py" output="screen">
-        <rosparam file="$(find ottobot_sense)/config/imu_calibration_params.yaml" command="load" />
-    </node> -->
+    <group if="$(arg enable_initalimuoffset)"> 
+        <node name="imu_calibration_commander" pkg="ottobot_sense" type="imu_calibration_commander.py" output="screen">
+            <rosparam file="$(find ottobot_sense)/config/imu_calibration_params.yaml" command="load" />
+        </node>
+    </group>
 </launch>

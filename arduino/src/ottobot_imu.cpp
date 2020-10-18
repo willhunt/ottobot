@@ -29,17 +29,17 @@ void imu_setup(ros::NodeHandle* nh, uint8_t imu_address) {
     imu_pub_timer = 0;
     imu_msg.header.frame_id = "imu";
     // No measured variance for orientation but put something in
-    imu_msg.orientation_covariance[0] = 0.00001;
-    imu_msg.orientation_covariance[4] = 0.00001;
-    imu_msg.orientation_covariance[8] = 0.00001;
+    imu_msg.orientation_covariance[0] = 0.000001;
+    imu_msg.orientation_covariance[4] = 0.000001;
+    imu_msg.orientation_covariance[8] = 0.000001;
     // Measured values
-    imu_msg.linear_acceleration_covariance[0] = 0.00007;
-    imu_msg.linear_acceleration_covariance[4] = 0.00008;
-    imu_msg.linear_acceleration_covariance[8] = 0.0052;
+    imu_msg.linear_acceleration_covariance[0] = 0.00015;
+    imu_msg.linear_acceleration_covariance[4] = 0.00015;
+    imu_msg.linear_acceleration_covariance[8] = 0.00018;
     // Measured values
-    imu_msg.angular_velocity_covariance[0] = 0.0101;
-    imu_msg.angular_velocity_covariance[4] = 0.0196;
-    imu_msg.angular_velocity_covariance[8] = 0.0052;
+    imu_msg.angular_velocity_covariance[0] = 0.011;
+    imu_msg.angular_velocity_covariance[4] = 0.021;
+    imu_msg.angular_velocity_covariance[8] = 0.006;
     // Advertise
     nh->advertise(imu_pub);
 
@@ -68,6 +68,20 @@ void imu_setup(ros::NodeHandle* nh, uint8_t imu_address) {
     }
     delay(1000);
     imu_sensor.setExtCrystalUse(true);
+
+    // Preset calibration offsets for better start data (calibration continues auto)
+    calibration_offsets.accel_offset_x = -40;
+    calibration_offsets.accel_offset_y = 10;
+    calibration_offsets.accel_offset_z = -19;
+    calibration_offsets.accel_radius = 1000;
+    calibration_offsets.gyro_offset_x = 0;
+    calibration_offsets.gyro_offset_y = -2;
+    calibration_offsets.gyro_offset_z = -1;
+    calibration_offsets.mag_offset_x = -68;
+    calibration_offsets.mag_offset_y = 337;
+    calibration_offsets.mag_offset_z = 593;
+    calibration_offsets.mag_radius = 723;
+    imu_sensor.setSensorOffsets(calibration_offsets);
 }
 
 /*
