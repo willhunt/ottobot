@@ -55,6 +55,7 @@ typedef ottobot_hardware::JointUpdate::Response JointResponse;
 void joint_state_service_callback(const JointRequest& request, JointResponse& response);
 void moving_average_filter(double& sum, double* readings, double& speed, double& sensor_speed, int& index);
 void lag_filter(double& speed, double& sensor_speed);
+void populate_joint_msg(sensor_msgs::JointState& input);
 
 extern bool low_voltage_cut_off;
 

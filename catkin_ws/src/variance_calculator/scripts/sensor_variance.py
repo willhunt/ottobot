@@ -8,7 +8,7 @@ from operator import attrgetter
 
 class VarianceCalculator:
     def __init__(self):
-         # Get parameters from provate namespace
+         # Get parameters from private namespace
         self.topic_name = rospy.get_param('~topic_name')
         self.topic_type = rospy.get_param('~topic_type')
         [msg_module, msg_type] = self.topic_type.split("/")

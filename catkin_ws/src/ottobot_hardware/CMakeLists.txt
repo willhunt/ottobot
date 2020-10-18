@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   hardware_interface
   roscpp
   std_msgs
+  sensor_msgs
   message_generation
   rosserial_arduino
 )
@@ -74,6 +75,7 @@ add_service_files(
 generate_messages(
   DEPENDENCIES
   std_msgs
+  sensor_msgs
 )
 
 ################################################

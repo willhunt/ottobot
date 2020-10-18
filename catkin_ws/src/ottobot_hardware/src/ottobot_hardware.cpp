@@ -92,7 +92,8 @@ void OttobotHardwareInterface::read() {
     } else {
         ottobot_hardware::JointUpdate update_srv;
         if (joint_service_client_.call(update_srv)) {
-            set_joint_values<ottobot_hardware::JointUpdate::Response>(update_srv.response);
+            set_joint_values<sensor_msgs::JointState>(update_srv.response.state);
+            // set_joint_values<ottobot_hardware::JointUpdate::Response>(update_srv.response);
         } else {
             ROS_ERROR("Failed to call joint update service request");
         } 
