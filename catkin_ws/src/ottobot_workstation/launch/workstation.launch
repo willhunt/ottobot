@@ -44,4 +44,7 @@
     <!-- Convert quaternions to yaw -->
     <node name="yaw_conversion" pkg="ottobot_workstation" type="yaw_publisher_node.py" />
 
+    <!-- RQT Multiplot -->
+    <node name="multi_plot" pkg="rqt_multiplot" type="rqt_multiplot" />
+
 </launch>
