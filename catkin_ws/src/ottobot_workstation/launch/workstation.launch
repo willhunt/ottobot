@@ -1,6 +1,6 @@
 <launch>
     <!-- Files to launch on static workstation for interfacing and monitoring robot -->
-    <arg name="enable_goalnav" default="true"/>
+    <arg name="enable_goalnav" default="false"/>
     <arg name="enable_nomap" default="false"/>
     <arg name="enable_teleop" default="true"/>
     <arg name="enable_joystick" default="false"/>

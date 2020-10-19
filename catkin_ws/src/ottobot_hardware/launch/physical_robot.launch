@@ -1,11 +1,11 @@
 <launch>
     <!-- Args-->
     <arg name="debug" default="false" />
-    <arg name="enable_goalnav" default="true" />
+    <arg name="enable_goalnav" default="false" />
     <arg name="enable_nomap" default="false" />
     <arg name="enable_amcl" default="false" />
     <arg name="enable_slam" default="true" />
-    <arg name="enable_teleop" default="false" />
+    <arg name="enable_teleop" default="true" />
     <arg name="enable_joystick" default="false" />
     <arg name="enable_lidar" default="true" />
     <arg name="enable_kinect" default="false" />
