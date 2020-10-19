@@ -41,4 +41,7 @@
         <node name="rviz_teleop" pkg="rviz" type="rviz" respawn="false" args="-d $(find ottobot_workstation)/rviz/teleop_config.rviz"/>
     </group>
 
+    <!-- Convert quaternions to yaw -->
+    <node name="yaw_conversion" pkg="ottobot_workstation" type="yaw_publisher_node.py" />
+
 </launch>

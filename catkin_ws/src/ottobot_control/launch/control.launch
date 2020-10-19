@@ -12,7 +12,7 @@
 
     <!-- Sensor fusino for localisation -->
     <group if="$(arg enable_sensor_fusion)" >
-        <node name="ottobot_localisation" pkg="robot_localization" type="ukf_localization_node" output="screen">
+        <node name="ottobot_localisation" pkg="robot_localization" type="ekf_localization_node" output="screen">
             <rosparam file="$(find ottobot_control)/config/localisation_params.yaml" command="load" />
         </node>
     </group>
