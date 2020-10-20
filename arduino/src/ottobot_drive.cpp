@@ -19,7 +19,7 @@ sensor_msgs::JointState joint_state_msg;
 unsigned long joint_state_pub_timer = 0;
 ros::Publisher joint_state_pub("hardware/joint_states", &joint_state_msg);
 // Joint state resetter Subscriber
-ros::Subscriber<std_msgs::Bool> joint_state_sub("hardware/reset_joint_positions", &reset_position_callback);
+ros::Subscriber<std_msgs::Bool> joint_reset_sub("hardware/reset_joint_positions", &reset_position_callback);
 // Joint state service server
 ros::ServiceServer<JointRequest, JointResponse> joint_state_service("/hardware/joint_update", &joint_state_service_callback);
 // PID publisher
@@ -61,10 +61,10 @@ void drive_controller_setup(ros::NodeHandle *nh) {
     // Advertise publishers
     nh_drive_->advertise(joint_state_pub);
     nh_drive_->advertise(pid_state_pub);
-    // Subscribe to cmd topic
+    // Subscribe
     nh_drive_->subscribe(wheel_cmd_sub);
-    // Subscribe to pid settings topic
     nh_drive_->subscribe(pid_settings_sub);
+    nh_drive_->subscribe(joint_reset_sub);
     // Advertise ServiceServer
     nh_drive_->advertiseService(joint_state_service);
 
