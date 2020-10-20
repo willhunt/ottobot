@@ -55,6 +55,9 @@ int ma_speed_left_index = 0;
 double ma_speed_right_readings[MA_FILTER_WINDOW_SIZE];
 double ma_speed_right_sum = 0;
 int ma_speed_right_index = 0;
+// Track connection to determine when new session has started
+bool was_connected = false;
+unsigned long t_disconnected;
 
 void drive_controller_setup(ros::NodeHandle *nh) {
     nh_drive_ = nh;
@@ -124,21 +127,31 @@ void update_joint_state() {
     // Update at set frequency
     if (time_current - time_last_joint_udpate >= UPDATE_INTERVAL_JOINT_STATE) {
         // Calculate wheel speeds from counted encoder ticks, accumulated via interrupt
-        // Left
+        // Left speed
         double rotations_left = (double)ticks_left / (double)ENC_COUNT_PER_REV;
         double speed_left_new = 1000 * TWO_PI * rotations_left / (double)(time_current - time_last_joint_udpate);  // TWO_PI defined in arduino.h
         // Filter speed
         moving_average_filter(ma_speed_left_sum, ma_speed_left_readings, speed_left, speed_left_new, ma_speed_left_index);
-        //Position
-        position_left = constrain_angle(position_left + rotations_left * 2 * M_PI);
-
-        // Right
+        // Right speed
         double rotations_right = (double)ticks_right / (double)ENC_COUNT_PER_REV;
         double speed_right_new = 1000 * TWO_PI * rotations_right / (double)(time_current - time_last_joint_udpate);
         // Filter speed
         moving_average_filter(ma_speed_right_sum, ma_speed_right_readings, speed_right, speed_right_new, ma_speed_right_index);
+
         // Position
-        position_right = constrain_angle(position_right + rotations_right * 2 * M_PI);
+        bool am_connected = nh_drive_->connected();
+        // Detect disconnection
+        if (!am_connected && was_connected) {
+            t_disconnected = millis();
+        }
+        if (!am_connected && millis() - t_disconnected > CONNECTION_TIMEOUT) {
+            position_left = 0;
+            position_right = 0;
+        } else {
+            position_left = constrain_angle(position_left + rotations_left * 2 * M_PI);
+            position_right = constrain_angle(position_right + rotations_right * 2 * M_PI);
+        }
+        was_connected = am_connected;
 
         // Reset variables
         time_last_joint_udpate = time_current;
