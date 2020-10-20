@@ -4,8 +4,8 @@
 
       map_update_interval: 2.0 # Default: 5.0s | Time between map updates | Publish new map
 
-      maxUrange: 5.0 # Default: 80.0 | Max usable laser range | Should be just less than sensor range
-      maxRange: 6.0 # Max range of sensor | Should be just greater than laser range
+      maxUrange: 10.0 # Default: 80.0 | Max usable laser range | Should be just less than sensor range
+      maxRange: 12.0 # Max range of sensor | Should be just greater than laser range
       particles: 100 # Default: 30 particles
 
       # Update frequencies
