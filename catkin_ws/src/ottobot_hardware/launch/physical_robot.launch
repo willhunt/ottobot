@@ -15,6 +15,8 @@
         <param name="port" type="string" value="/dev/ttyACM0" />
         <param name="baud" type="int" value="115200" />
     </node>
+    <!-- Reset arduino joint positions -->
+    <node name="hardware_position_reset_node" pkg="ottobot_hardware" type="hardware_position_reset_node.py" output="screen" />
 
     <!-- Sensors -->
     <include file="$(find ottobot_sense)/launch/sense.launch">

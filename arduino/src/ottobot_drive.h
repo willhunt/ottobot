@@ -8,6 +8,7 @@
 #include <ottobot_hardware/WheelCmd.h>
 #include <ottobot_hardware/PidSettings.h>
 #include <ottobot_hardware/JointUpdate.h>
+#include <std_msgs/Bool.h>
 #include <sensor_msgs/JointState.h>
 
 #define ENC_COUNT_PER_REV 300  //1200
@@ -58,6 +59,7 @@ void joint_state_service_callback(const JointRequest& request, JointResponse& re
 void moving_average_filter(double& sum, double* readings, double& speed, double& sensor_speed, int& index);
 void lag_filter(double& speed, double& sensor_speed);
 void populate_joint_msg(sensor_msgs::JointState& input);
+void reset_position_callback(const std_msgs::Bool& msg);
 
 extern bool low_voltage_cut_off;
 

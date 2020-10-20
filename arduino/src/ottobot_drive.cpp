@@ -18,6 +18,8 @@ ros::Subscriber<ottobot_hardware::PidSettings> pid_settings_sub("hardware/motor_
 sensor_msgs::JointState joint_state_msg;
 unsigned long joint_state_pub_timer = 0;
 ros::Publisher joint_state_pub("hardware/joint_states", &joint_state_msg);
+// Joint state resetter Subscriber
+ros::Subscriber<std_msgs::Bool> joint_state_sub("hardware/reset_joint_positions", &reset_position_callback);
 // Joint state service server
 ros::ServiceServer<JointRequest, JointResponse> joint_state_service("/hardware/joint_update", &joint_state_service_callback);
 // PID publisher
@@ -391,4 +393,14 @@ Callback for PID gain update
 */
 void pid_settings_callback(const ottobot_hardware::PidSettings& settings_msg) {
     set_drive_gains(settings_msg.kp, settings_msg.ki, settings_msg.kd);
+}
+
+/*
+Reset joint position
+*/
+void reset_position_callback(const std_msgs::Bool& msg) {
+    if (msg.data) {
+        position_left = 0;
+        position_right = 0;
+    }
 }
